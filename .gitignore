@@ -1,0 +1,33 @@
+﻿# Build / intermediates
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+Content/
+
+# VS and Rider artifacts
+.vs/
+.idea/
+*.sln
+*.suo
+*.user
+*.vcxproj*
+
+# Unreal autosaves
+*.tmp
+*.log
+*.obj
+*.pdb
+
+# Config backups
+Config/DefaultEditor.ini
+Config/DefaultEditorPerProjectUserSettings.ini
+
+# Ignore plugins binaries
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# RiderLink output (optional)
+Plugins/Developer/RiderLink/Binaries/
+Plugins/Developer/RiderLink/Intermediate/
