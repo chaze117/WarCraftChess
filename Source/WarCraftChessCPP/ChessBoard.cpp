@@ -224,20 +224,6 @@ void AChessBoard::HighLightCheckedKing()
 
 void AChessBoard::HighLightValidPoints(TArray<FString> ValidPoints)
 {
-	UE_LOG(LogTemp, Warning, TEXT("=== Dumping PiecesMap (%d entries) ==="), AllTiles.Num());
-
-	for (const TPair<FString, UTileComponent*>& Pair : AllTiles)
-	{
-		FString Key = Pair.Key;
-		UTileComponent* Value = Pair.Value;
-
-		FString ValueName = Value ? Value->GetName() : TEXT("NULL");
-
-		UE_LOG(LogTemp, Warning, TEXT("Key: %s | Value: %s"), *Key, *ValueName);
-	}
-
-	UE_LOG(LogTemp, Warning, TEXT("=== End of PiecesMap dump ==="));
-	
 	for (FString Point : ValidPoints)
 	{
 		UTileComponent** TilePtr = AllTiles.Find(Point);

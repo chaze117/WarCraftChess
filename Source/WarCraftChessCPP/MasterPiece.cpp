@@ -157,6 +157,7 @@ void AMasterPiece::NotifyActorOnClicked(FKey ButtonPressed)
 	
 	ChessBoardReference->CurrentPiece = this;
 	SetSelected(true);
+	//ChessPieceController->RefreshMoves();
 	TArray<FString> ValidPoints;
 	ValidPoints.Append(ChessPieceController->CurrentMoves);
 	ValidPoints.Append(ChessPieceController->CurrentAttacks);

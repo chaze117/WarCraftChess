@@ -39,7 +39,7 @@ public:
 	class AChessBoard* ChessBoardReference;
 	
 	UPROPERTY()
-	bool HasMoved;
+	bool HasMoved = false;
 	
 	UPROPERTY()
 	AMasterPiece* TargetPiece;
@@ -55,34 +55,34 @@ public:
 	
 	
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Types", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Types", meta=(DisplayPriority=-10))
 	EPieceTypes Type;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/AttackType", DisplayName="Attack Type", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Types", DisplayName="Attack Type", meta=(DisplayPriority=-10))
 	EAttackTypes AttackType;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Animations", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Animations", meta=(DisplayPriority=-10))
 	UAnimationAsset* Attack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Animations", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Animations", meta=(DisplayPriority=-10))
 	UAnimationAsset* Death;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Animations",DisplayName="Pre-Attack", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Animations",DisplayName="Pre-Attack", meta=(DisplayPriority=-10))
 	UAnimationAsset* PreAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Animation Montages",DisplayName="Attack Montage", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Animation Montages",DisplayName="Attack Montage", meta=(DisplayPriority=-10))
 	UAnimMontage* AttackMontage;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Animation Montages",DisplayName="Death Montage", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Animation Montages",DisplayName="Death Montage", meta=(DisplayPriority=-10))
 	UAnimMontage* DeathMontage;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Projectile", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Projectile", meta=(DisplayPriority=-10))
 	TSubclassOf<AProjectile> Projectile;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Projectile",DisplayName="Projectile Socket Name", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Projectile",DisplayName="Projectile Socket Name", meta=(DisplayPriority=-10))
 	FName ProjectileSocketName;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings/Projectile",DisplayName="Projectile Speed", meta=(DisplayPriority=-10))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Projectile",DisplayName="Projectile Speed", meta=(DisplayPriority=-10))
 	float ProjectileSpeed;
 
 	

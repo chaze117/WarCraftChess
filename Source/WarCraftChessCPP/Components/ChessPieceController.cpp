@@ -20,6 +20,7 @@ UChessPieceController::UChessPieceController()
 	PrimaryComponentTick.bCanEverTick = true;
 	//AIControllerClass = 
 	// ...
+	UE_LOG(LogTemp, Warning, TEXT("Controller constructed: %s"), *GetName());
 }
 
 
@@ -161,7 +162,9 @@ void UChessPieceController::AfterAttack()
 
 void UChessPieceController::GetKilled() const
 {
-	USkeletalMeshComponent* LocalMesh = Type == EPieceTypes::Knight ? ThisPiece->Mount : Mesh;
+	USkeletalMeshComponent* LocalMesh;
+	if (ThisPiece->Mount && Type == EPieceTypes::Knight) LocalMesh= ThisPiece->Mount;
+	else LocalMesh	 = ThisPiece->GetMesh();
 	if (Death)
 	{
 		
@@ -340,20 +343,21 @@ void UChessPieceController::RefreshMoves()
 TArray<FString> UChessPieceController::FindValidPath(const int32 Length, const EDirections Direction) const 
 {
 	TArray<FString> ValidPaths;
-	if (const int32 EdgeLength = UHelperFunctions::GetEdgeLength(ThisPiece,Direction); FMath::Clamp(Length, 0, EdgeLength) > 0)
+	UE_LOG(LogTemp, Warning, TEXT("In ValidPaths Length: %d"), Length);
+	const int32 EdgeLength = UHelperFunctions::GetEdgeLength(ThisPiece,Direction);
+	const int32 ClampedLength = FMath::Clamp(Length, 0, EdgeLength);
+	UE_LOG(LogTemp, Warning, TEXT("Clamped Length: %d"), ClampedLength);
+	if ( ClampedLength > 0)
 	{
-		for (int i = 1; i < EdgeLength; ++i)
+
+		for (int i = 1; i < ClampedLength; ++i)
 		{
 			const FString Position = UHelperFunctions::GetPositionInDirection(i, ThisPiece, Direction);
 			if (const FFindPiece FoundPiece = ChessBoardReference->GetPositionInfo(Position); !FoundPiece.PieceFound) ValidPaths.Add(Position);
 			else
 			{
 				if (ThisPiece->Team == FoundPiece.Piece->Team) break;
-				else
-				{
-					ValidPaths.Add(Position);
-				}
-				
+				ValidPaths.Add(Position);
 			}
 		}
 	}
@@ -374,15 +378,17 @@ bool UChessPieceController::MovementCheck(const FString& Position) const
 
 FMovements UChessPieceController::PawnPossibleMoves() const
 {
+	UE_LOG(LogTemp, Warning, TEXT("PawnPossibleMoves called from Controller: %s"), *GetName());
 	FMovements Movements;
 	const int32 Length = HasMoved? 1 : 2;
+	UE_LOG(LogTemp, Warning, TEXT("In Pawn Length %d"), Length);
 	for (FString Position : FindValidPath(Length, EDirections::Forward))
 	{
 		if (MovementCheck(Position)) Movements.Movements.Add(Position);
 	}
 	for (TArray AttackDirections = {EDirections::ForwardLeft, EDirections::ForwardRight}; const EDirections Direction : AttackDirections)
 	{
-		for (FString Position : FindValidPath(Length, Direction))
+		for (FString Position : FindValidPath(1, Direction))
 		{
 			if (AttackCheck(Position)) Movements.Attacks.Add(Position);
 		}
