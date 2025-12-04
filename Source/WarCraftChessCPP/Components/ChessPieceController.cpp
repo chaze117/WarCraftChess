@@ -45,7 +45,6 @@ void UChessPieceController::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 	// ...
 }
-#pragma region MovementFunctions
 void UChessPieceController::Move(UTileComponent* TargetTile)
 {
 	Tile = TargetTile;
@@ -162,9 +161,11 @@ void UChessPieceController::AfterAttack()
 
 void UChessPieceController::GetKilled() const
 {
+	USkeletalMeshComponent* LocalMesh = Type == EPieceTypes::Knight ? ThisPiece->Mount : Mesh;
 	if (Death)
 	{
-		Mesh->PlayAnimation(Death,false);
+		
+		LocalMesh->PlayAnimation(Death,false);
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 		{
 			FTimerHandle DelayHandle;
@@ -181,7 +182,7 @@ void UChessPieceController::GetKilled() const
 	}
 	else if (DeathMontage)
 	{
-		UAnimInstance* AnimInst = Mesh->GetAnimInstance();
+		UAnimInstance* AnimInst = LocalMesh->GetAnimInstance();
     
 		AnimInst->Montage_Play(DeathMontage);
 
@@ -299,9 +300,9 @@ void UChessPieceController::MeeleNotifyAttack()
 		AnimInst->Montage_SetEndDelegate(EndDelegate, AttackMontage);
 	}
 }
-#pragma endregion
 
-#pragma  region  CalculationFunctions
+
+
 FMovements UChessPieceController::GetAllPossibleMoves() 
 {
 	switch (Type)
@@ -626,5 +627,5 @@ void UChessPieceController::PromotePiece(const TSubclassOf<AMasterPiece> White, 
 {
 	ChessBoardReference->Promote(ThisPiece->Position, ThisPiece, ThisPiece->Team == ETeams::White ? White : Black);
 }
-#pragma endregion 
+
 
