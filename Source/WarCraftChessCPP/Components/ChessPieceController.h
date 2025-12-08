@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Navigation/PathFollowingComponent.h"
 #include "WarCraftChessCPP/ChessInstance.h"
 #include "WarCraftChessCPP/MasterPiece.h"
 #include "WarCraftChessCPP/Projectile.h"
@@ -85,7 +86,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings.Projectile",DisplayName="Projectile Speed", meta=(DisplayPriority=-10))
 	float ProjectileSpeed;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UUserWidget* PromoteWidget;
 	
+	UPROPERTY()
+	EMoveTypes MoveType;
+	
+private: 
+	FTimerHandle MoveCheckTimerHandle;
+	float MoveAcceptanceRadius = 10.f;
+	FVector CurrentMoveDestination;
+	UFUNCTION()
+	void OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result);
 
 protected:
 	// Called when the game starts
@@ -94,15 +106,15 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-#pragma region MovementFunctions
+	
 	UFUNCTION(BlueprintCallable)
 	void Move(UTileComponent* TargetTile);
 	
 	UFUNCTION()
-	void MoveWithoutAttack() const;
+	void MoveWithoutAttack();
 	
 	UFUNCTION()
-	void FindAttackPosition(const AMasterPiece* Target) const;
+	void FindAttackPosition(const AMasterPiece* Target);
 	
 	UFUNCTION()
 	void DoMeeleAttack();
@@ -125,9 +137,9 @@ public:
 	UFUNCTION()
 	void MeeleNotifyAttack();
 	
-#pragma endregion 	
+
 	
-#pragma  region  CalculationFunctions
+
 	UFUNCTION()
 	FMovements GetAllPossibleMoves();
 	
@@ -187,5 +199,10 @@ public:
 	
 	UFUNCTION()
 	void PromotePiece(TSubclassOf<AMasterPiece> White, TSubclassOf<AMasterPiece> Black) const;
-#pragma endregion
+	
+	UFUNCTION()
+	bool IsValidBoardCoordinate(const FString& Coord) const;
+	
+	void SetFinalRotationLocked() const;
+
 };

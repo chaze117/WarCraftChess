@@ -2,10 +2,19 @@
 
 
 #include "MasterPiece.h"
+
+#include "ChessAIController.h"
 #include "ChessBoard.h"
 #include "Kismet/GameplayStatics.h"
 #include "ChessCharacter.h"
+#include "IImageWrapper.h"
+#include "IImageWrapperModule.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/ChessPieceController.h"
+#include "Components/SceneCaptureComponent2D.h"
+#include "Components/SpotLightComponent.h"
+#include "Engine/TextureRenderTarget2D.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMasterPiece::AMasterPiece()
@@ -19,7 +28,15 @@ AMasterPiece::AMasterPiece()
 	Mount->SetupAttachment(RootComponent);
 	Mount->SetRelativeLocation(FVector(0.0f, 0.0f, -89.0f));
 	Mount->SetWorldScale3D(FVector(0.75f, 0.75f, 0.75f));
-	
+	AIControllerClass = AChessAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::Spawned;
+	GetCharacterMovement()->bUseControllerDesiredRotation = false;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->MaxWalkSpeed = 200.f;
+	GetCapsuleComponent()->SetCapsuleRadius(1.f);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+
+	SelectionBox= CreateDefaultSubobject<UBoxComponent>(TEXT("SelectionBox"));
 	ArmorMesh1  = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("ArmorMesh1"));
 	ArmorMesh2  = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("ArmorMesh2"));
 	Helm        = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Helm"));
@@ -69,11 +86,36 @@ AMasterPiece::AMasterPiece()
 	LToes->       SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	WeaponOnBack->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
+	ArmorMesh1->  SetCollisionResponseToAllChannels(ECR_Ignore);
+	ArmorMesh2->  SetCollisionResponseToAllChannels(ECR_Ignore);
+	Helm->		  SetCollisionResponseToAllChannels(ECR_Ignore);
+	Buckle->	  SetCollisionResponseToAllChannels(ECR_Ignore);
+	RShoulder->   SetCollisionResponseToAllChannels(ECR_Ignore);
+	LShoulder->   SetCollisionResponseToAllChannels(ECR_Ignore);
+	RHand->		  SetCollisionResponseToAllChannels(ECR_Ignore);
+	LHand->		  SetCollisionResponseToAllChannels(ECR_Ignore);
+	RBracer->	  SetCollisionResponseToAllChannels(ECR_Ignore);
+	LBracer->	  SetCollisionResponseToAllChannels(ECR_Ignore);
+	RKneepad->	  SetCollisionResponseToAllChannels(ECR_Ignore);
+	LKneepad->	  SetCollisionResponseToAllChannels(ECR_Ignore);
+	RToes->       SetCollisionResponseToAllChannels(ECR_Ignore);
+	LToes->		  SetCollisionResponseToAllChannels(ECR_Ignore);
+	WeaponOnBack->SetCollisionResponseToAllChannels(ECR_Ignore);
+	Mount->		  SetCollisionResponseToAllChannels(ECR_Block);
 	
 	Widget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget"));
 	Widget->SetupAttachment(RootComponent);
 	Widget->SetVisibility(false);
 	Widget->SetRelativeTransform(FTransform(FRotator(90.f,0.f,0.f),FVector(0.f,0.f,-85.f),FVector(0.4f,0.4f,0.4f)));
+	Widget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Widget->SetCollisionResponseToAllChannels(ECR_Ignore);
+	
+	SelectionBox->SetupAttachment(RootComponent);
+	SelectionBox->SetBoxExtent(FVector(50.f, 50.f, 100.f)); // nagyobb mint a mesh
+	SelectionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	SelectionBox->SetCollisionResponseToAllChannels(ECR_Ignore);
+	SelectionBox->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	SelectionBox->SetGenerateOverlapEvents(false);
 	
 	ChessPieceController = CreateDefaultSubobject<UChessPieceController>(TEXT("ChessPieceController"));
 	
@@ -85,6 +127,7 @@ void AMasterPiece::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerCharacterReference =  Cast<AChessCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
 }
 
 // Called every frame
@@ -149,7 +192,6 @@ void AMasterPiece::SetSelected(bool bNewSelected)
 void AMasterPiece::NotifyActorOnClicked(FKey ButtonPressed)
 {
 	if (!ChessBoardReference || Team != PlayerCharacterReference->CurrentTeam) return;
-	
 	if (ChessBoardReference->CurrentPiece && ChessBoardReference->CurrentPiece != this)
 	{
 		ChessBoardReference->CurrentPiece->SetSelected(false);
@@ -157,8 +199,9 @@ void AMasterPiece::NotifyActorOnClicked(FKey ButtonPressed)
 	
 	ChessBoardReference->CurrentPiece = this;
 	SetSelected(true);
-	//ChessPieceController->RefreshMoves();
+	ChessPieceController->RefreshMoves();
 	TArray<FString> ValidPoints;
+	
 	ValidPoints.Append(ChessPieceController->CurrentMoves);
 	ValidPoints.Append(ChessPieceController->CurrentAttacks);
 	ChessBoardReference->OnPieceSelected(this,ValidPoints);

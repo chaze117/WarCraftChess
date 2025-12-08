@@ -75,3 +75,12 @@ enum class EAttackTypes : uint8
 	Notify,
 	MeeleNotify
 };
+
+UENUM()
+enum class EMoveTypes: uint8
+{
+	MoveWithoutAttack,
+	FindAttackPosition,
+	CanEndTurn,
+	AfterAttack
+};

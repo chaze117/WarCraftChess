@@ -115,4 +115,7 @@ public:
 	
 	UFUNCTION()
 	void Castle(UTileComponent* TargetTile);
+	
+	UFUNCTION()
+	void ManagePieceClicktrough(const AMasterPiece* Piece);
 };

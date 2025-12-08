@@ -163,6 +163,9 @@ void AChessBoard::EndTurn()
 	PlayerCharacter->TogglePlayer();
 	ClearCheckHighlights();
 	if (IsKingInCheck()) HighLightCheckedKing();
+	for (const AMasterPiece* Piece : Pieces)
+		ManagePieceClicktrough(Piece);
+	
 	
 }
 
@@ -180,6 +183,7 @@ void AChessBoard::Promote(const FString Position, AMasterPiece* Piece, const TSu
 	Piece->Destroy();
 	AllPieces.Remove(Position);
 	AllPieces.Add(Position, SpawnPiece(NewPiece,PlayerCharacter->CurrentTeam,AllTiles[Position]));
+	PieceMoved(PlayerCharacter->CurrentTeam);
 }
 
 AMasterPiece* AChessBoard::GetCurrentKing() const
@@ -224,6 +228,7 @@ void AChessBoard::HighLightCheckedKing()
 
 void AChessBoard::HighLightValidPoints(TArray<FString> ValidPoints)
 {
+	
 	for (FString Point : ValidPoints)
 	{
 		UTileComponent** TilePtr = AllTiles.Find(Point);
@@ -239,8 +244,13 @@ void AChessBoard::OnPieceSelected(AMasterPiece* InCurrentPiece, const TArray<FSt
 {
 	ClearMoveHighLights();
 	CurrentPiece = InCurrentPiece;
-
 	HighLightValidPoints(ValidPoints);
+	TArray<AMasterPiece*> Pieces;
+	AllPieces.GenerateValueArray(Pieces);
+	for (AMasterPiece* Piece : Pieces)
+	{
+		ManagePieceClicktrough(Piece);
+	}
 }
 
 void AChessBoard::ClearMoveHighLights()
@@ -253,39 +263,70 @@ void AChessBoard::MoveToTile(UTileComponent* TargetTile)
 {
 	if (CurrentPiece && CurrentPiece->ChessPieceController)
 	{
-		if (CurrentPiece->ChessPieceController->GetAllPossibleMoves().Movements.Contains(TargetTile->GetTileName()) || 
-			CurrentPiece->ChessPieceController->GetAllPossibleMoves().Attacks.Contains(TargetTile->GetTileName()))
+		FMovements Moves = CurrentPiece->ChessPieceController->GetAllPossibleMoves();
+		if (Moves.Movements.Contains(TargetTile->GetTileName()) || Moves.Attacks.Contains(TargetTile->GetTileName()))
 		{
 			Castle(TargetTile);
 			CurrentPiece->ChessPieceController->Move(TargetTile);
 		}
 	}
+
 }
 
 void AChessBoard::Castle(UTileComponent* TargetTile)
 {
-	
-	FString PointToCheck = "";
-	if (GetCurrentKing() == CurrentPiece && CurrentPiece->ChessPieceController->CastleingPoints.Contains(TargetTile->GetTileName()))
-	{
-		
-		switch (CurrentPiece->ChessPieceController->CastleingPoints[TargetTile->GetTileName()])
-		{
-		case EDirections::Left:	 PointToCheck = PlayerCharacter->CurrentTeam == ETeams::White ? "A1" : "H8";break;
-		case EDirections::Right: PointToCheck = PlayerCharacter->CurrentTeam == ETeams::White ? "H1" : "A8";break;
+	if (GetCurrentKing() != CurrentPiece) return;
+
+	bool bWhite = (PlayerCharacter->CurrentTeam == ETeams::White);
+
+	FString KingTarget = TargetTile->GetTileName(); // király cél
+	FString RookStart;
+	FString RookEnd;
+
+	// Determine side based on KingTarget
+	if (bWhite) {
+		if (KingTarget == "G1") { // short/king side
+			RookStart = "H1";
+			RookEnd   = "F1";
+		} else if (KingTarget == "C1") { // long/queen side
+			RookStart = "A1";
+			RookEnd   = "D1";
 		}
-		AMasterPiece* PossibleRook = AllPieces[PointToCheck];
-		if (PossibleRook && !PossibleRook->ChessPieceController->HasMoved && PossibleRook->ChessPieceController->Type == EPieceTypes::Rook)
-		{
-			UTileComponent* CastleTile;
-			switch (CurrentPiece->ChessPieceController->CastleingPoints[TargetTile->GetTileName()])
-			{
-			case EDirections::Left:  CastleTile = PlayerCharacter->CurrentTeam == ETeams::White ? AllTiles["C1"] : AllTiles["F8"]; break;
-			case EDirections::Right: CastleTile = PlayerCharacter->CurrentTeam == ETeams::White? AllTiles["F1"] : AllTiles["C8"]; break;
-			default: CastleTile = AllTiles["F8"]; break;
-			}
-			PossibleRook->ChessPieceController->Move(CastleTile);
+	} else {
+		if (KingTarget == "G8") { // short/king side
+			RookStart = "H8";
+			RookEnd   = "F8";
+		} else if (KingTarget == "C8") { // long/queen side
+			RookStart = "A8";
+			RookEnd   = "D8";
 		}
 	}
+
+	AMasterPiece* Rook = nullptr;
+	if (AllPieces.Contains(RookStart))
+	{
+		Rook = AllPieces[RookStart];
+	}
+
+	if (!Rook) return;
+	if (Rook->ChessPieceController->HasMoved) return;
+	if (Rook->ChessPieceController->Type != EPieceTypes::Rook) return;
+
+	// Move the rook
+	Rook->ChessPieceController->Move(AllTiles[RookEnd]);
+
+	// Move the king (valahol már hívod a Move-ot TargetTile-re)
 }
 
+
+
+
+void AChessBoard::ManagePieceClicktrough(const AMasterPiece* Piece)
+{
+	if (!Piece) return;
+
+	ECollisionResponse Response = (Piece->Team == PlayerCharacter->CurrentTeam) ? ECR_Block : ECR_Ignore;
+
+	if (Piece->SelectionBox)
+		Piece->SelectionBox->SetCollisionResponseToChannel(ECC_Visibility,Response);
+}

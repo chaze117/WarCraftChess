@@ -49,20 +49,20 @@ struct FPromote : public FTableRowBase
 	UTexture2D* Bishop;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UTexture2D* King;
-	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UTexture2D* Knight;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UTexture2D* Queen;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UTexture2D* Rook;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	ERaces Race;
 	
 	FPromote()
 		: Bishop(nullptr)
-		, King(nullptr)
+		, Rook(nullptr)
 		, Knight(nullptr)
 		, Queen(nullptr)
 		, Race(ERaces::Undead) 

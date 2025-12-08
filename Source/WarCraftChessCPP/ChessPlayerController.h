@@ -18,6 +18,7 @@ class WARCRAFTCHESSCPP_API AChessPlayerController : public APlayerController
 protected:
 	virtual void SetupInputComponent() override;
 	void HandleLeftClick();
+	void DebugClickTrace();
 	
 	UPROPERTY() 
 	AChessBoard* ChessBoardReference;

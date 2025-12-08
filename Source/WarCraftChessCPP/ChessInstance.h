@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Structures.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "Engine/GameInstance.h"
 #include "ChessInstance.generated.h"
 
@@ -23,6 +24,9 @@ public:
 	TSubclassOf<class ACheckHighlight> CheckHighlightClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UBehaviorTree* ChessBehaviorTree;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FRaces WhiteRace;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -30,4 +34,7 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsAI;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UUserWidget* PromoteWidget;
 };

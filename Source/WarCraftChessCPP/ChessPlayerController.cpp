@@ -27,3 +27,29 @@ void AChessPlayerController::HandleLeftClick()
 {
 	//ChessBoardReference->MouseClicked();
 }
+void AChessPlayerController::DebugClickTrace()
+{
+	FVector WorldMouseLocation, WorldMouseDirection;
+	if (!DeprojectMousePositionToWorld(WorldMouseLocation, WorldMouseDirection)) return;
+
+	FVector TraceEnd = WorldMouseLocation + WorldMouseDirection * 10000.f;
+
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+	Params.bReturnPhysicalMaterial = false;
+	Params.bTraceComplex = true;
+
+	if (GetWorld()->LineTraceSingleByChannel(Hit, WorldMouseLocation, TraceEnd, ECC_Visibility, Params))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Trace hit Actor: %s, Component: %s"), 
+			   *Hit.GetActor()->GetName(), *Hit.GetComponent()->GetName());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Trace hit nothing"));
+	}
+
+#if WITH_EDITOR
+	DrawDebugLine(GetWorld(), WorldMouseLocation, TraceEnd, FColor::Red, false, 2.f, 0, 1.f);
+#endif
+}

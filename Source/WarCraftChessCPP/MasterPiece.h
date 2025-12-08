@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enums.h"
+#include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "MasterPiece.generated.h"
@@ -26,6 +27,9 @@ public:
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USkeletalMeshComponent* Mount;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UBoxComponent* SelectionBox;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USkeletalMeshComponent* ArmorMesh1;
@@ -110,6 +114,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void NotifyActorOnClicked(FKey ButtonPressed = EKeys::LeftMouseButton) override;
+
 
 	
 

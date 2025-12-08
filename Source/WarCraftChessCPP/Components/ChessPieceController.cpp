@@ -5,10 +5,11 @@
 #include "WarCraftChessCPP/ChessBoard.h"
 #include "WarCraftChessCPP/HelperFunctions.h"
 #include "Runtime/AIModule/Classes/AIController.h"
-#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "WarCraftChessCPP/MasterPiece.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Navigation/PathFollowingComponent.h"
+#include "WarCraftChessCPP/ChessAIController.h"
 #include "WarCraftChessCPP/ChessCharacter.h"
 
 
@@ -20,7 +21,6 @@ UChessPieceController::UChessPieceController()
 	PrimaryComponentTick.bCanEverTick = true;
 	//AIControllerClass = 
 	// ...
-	UE_LOG(LogTemp, Warning, TEXT("Controller constructed: %s"), *GetName());
 }
 
 
@@ -34,6 +34,7 @@ void UChessPieceController::BeginPlay()
 	ChessInstance = ChessInstance = Cast<UChessInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	Mesh = ThisPiece->GetMesh();
 	TargetPiece = nullptr;
+	ThisPiece->PromotionWidgetClass = ChessInstance->PromoteWidget->GetClass();
 	
 	
 }
@@ -48,6 +49,7 @@ void UChessPieceController::TickComponent(float DeltaTime, ELevelTick TickType, 
 }
 void UChessPieceController::Move(UTileComponent* TargetTile)
 {
+	ChessBoardReference->ClearMoveHighLights();
 	Tile = TargetTile;
 	if (const FFindPiece TargetedPiece = CheckTargetTilesOccupied(TargetTile); TargetedPiece.PieceFound)
 	{
@@ -61,45 +63,79 @@ void UChessPieceController::Move(UTileComponent* TargetTile)
 		case EAttackTypes::Notify:		NotifyAttack();
 		}
 	}
+	
 	else MoveWithoutAttack();
 	
 }
 
-void UChessPieceController::MoveWithoutAttack() const
+void UChessPieceController::MoveWithoutAttack()
 {
-	if (AAIController* AIController = Cast<AAIController>(ThisPiece->GetController()))
+	if (!ThisPiece) return;
+	MoveType = EMoveTypes::MoveWithoutAttack;
+	if (AChessAIController* AIController = Cast<AChessAIController>(ThisPiece->GetController()))
 	{
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(AIController, GetMoveDestination(Tile));
-		ThisPiece->SetActorRotation(ThisPiece->Team == ETeams::White ? FRotator(0.f, -90.f, 0.f) : FRotator(0.f, 90.f, 0.f));
-		if (CanPromote())
-		{
-			if (UUserWidget* PromotionWidget = CreateWidget<UUserWidget>(GetWorld(), ThisPiece->PromotionWidgetClass))
-			{
-				PromotionWidget->AddToViewport();
-			}
-		}
-		ChessBoardReference->PieceMoved(ThisPiece->Team);
+		CurrentMoveDestination = GetMoveDestination(Tile);
+		// Bind the delegate
+		FAIRequestID MoveRequestID = AIController->MoveToLocation(CurrentMoveDestination);
+		AIController->ReceiveMoveCompleted.RemoveDynamic(this, &UChessPieceController::OnMoveCompleted);
+		AIController->ReceiveMoveCompleted.AddDynamic(this, &UChessPieceController::OnMoveCompleted);
 	}
-	
 }
 
-void UChessPieceController::FindAttackPosition(const AMasterPiece* Target) const
+// Ez hívódik, amikor a mozgás befejeződik
+void UChessPieceController::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result)
 {
-	if (AAIController* AIController = Cast<AAIController>(ThisPiece->GetController()))
+	if (!ThisPiece) return;
+	ThisPiece->Position = Tile->GetTileName();
+	SetFinalRotationLocked(); // rotáció beállítása
+	if (MoveType == EMoveTypes::FindAttackPosition)
 	{
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(AIController,FindAtkPos(Target));
-		ThisPiece->SetActorRotation(ThisPiece->Team == ETeams::White ? FRotator(0.f, -90.f, 0.f) : FRotator(0.f, 90.f, 0.f));
 		switch (AttackType)
 		{
 		case EAttackTypes::Meele:
 			{
+				DoMeeleAttack();
 				break;
 			}
 		case EAttackTypes::MeeleNotify:
 			{
+				MeeleNotifyAttack();
 				break;
 			}
 		}
+	}
+	if (CanPromote() && (MoveType == EMoveTypes::AfterAttack || MoveType == EMoveTypes::MoveWithoutAttack)) 
+	{
+		if (ThisPiece->PromotionWidgetClass)
+		{
+			//Mesh->SetAnimInstanceClass(Mesh->GetAnimClass());
+			PromoteWidget = CreateWidget<UUserWidget>(GetWorld(), ThisPiece->PromotionWidgetClass);
+			PromoteWidget->AddToViewport();
+		}
+	}
+	if ((MoveType == EMoveTypes::AfterAttack || MoveType == EMoveTypes::MoveWithoutAttack) && !CanPromote())
+	{
+		MoveType = EMoveTypes::CanEndTurn;
+	}
+
+	if (ChessBoardReference && MoveType == EMoveTypes::CanEndTurn)
+	{
+		
+		ChessBoardReference->PieceMoved(ThisPiece->Team);
+	}
+}
+void UChessPieceController::FindAttackPosition(const AMasterPiece* Target)
+{
+	if (!ThisPiece) return;
+
+	if (AChessAIController* AIController = Cast<AChessAIController>(ThisPiece->GetController()))
+	{
+		CurrentMoveDestination = FindAtkPos(Target);
+		MoveType = EMoveTypes::FindAttackPosition;
+		// Bind the delegate
+		FAIRequestID MoveRequestID = AIController->MoveToLocation(CurrentMoveDestination);
+		AIController->ReceiveMoveCompleted.RemoveDynamic(this, &UChessPieceController::OnMoveCompleted);
+		AIController->ReceiveMoveCompleted.AddDynamic(this, &UChessPieceController::OnMoveCompleted);
 	}
 }
 
@@ -135,6 +171,8 @@ void UChessPieceController::AfterAttack()
 				DelayHandle,
 				[this]()
 				{
+					
+					MoveType = EMoveTypes::AfterAttack;
 					MoveWithoutAttack();					
 				},
 				TargetPiece->ChessPieceController->Death->GetPlayLength(), false
@@ -277,7 +315,6 @@ void UChessPieceController::ShootProjectile(const AMasterPiece* Target,  FName S
 void UChessPieceController::NotifyAttack()
 {
 	
-	ThisPiece->SetActorRotation(UKismetMathLibrary::FindLookAtRotation(ThisPiece->GetMesh()->GetComponentLocation(), TargetPiece->ChessPieceController->Mesh->GetComponentLocation()));
 	if (AttackMontage)
 	{
 		UAnimInstance* AnimInst = ThisPiece->GetMesh()->GetAnimInstance();
@@ -343,14 +380,12 @@ void UChessPieceController::RefreshMoves()
 TArray<FString> UChessPieceController::FindValidPath(const int32 Length, const EDirections Direction) const 
 {
 	TArray<FString> ValidPaths;
-	UE_LOG(LogTemp, Warning, TEXT("In ValidPaths Length: %d"), Length);
 	const int32 EdgeLength = UHelperFunctions::GetEdgeLength(ThisPiece,Direction);
 	const int32 ClampedLength = FMath::Clamp(Length, 0, EdgeLength);
-	UE_LOG(LogTemp, Warning, TEXT("Clamped Length: %d"), ClampedLength);
 	if ( ClampedLength > 0)
 	{
 
-		for (int i = 1; i < ClampedLength; ++i)
+		for (int i = 1; i <= ClampedLength; ++i)
 		{
 			const FString Position = UHelperFunctions::GetPositionInDirection(i, ThisPiece, Direction);
 			if (const FFindPiece FoundPiece = ChessBoardReference->GetPositionInfo(Position); !FoundPiece.PieceFound) ValidPaths.Add(Position);
@@ -378,10 +413,8 @@ bool UChessPieceController::MovementCheck(const FString& Position) const
 
 FMovements UChessPieceController::PawnPossibleMoves() const
 {
-	UE_LOG(LogTemp, Warning, TEXT("PawnPossibleMoves called from Controller: %s"), *GetName());
 	FMovements Movements;
 	const int32 Length = HasMoved? 1 : 2;
-	UE_LOG(LogTemp, Warning, TEXT("In Pawn Length %d"), Length);
 	for (FString Position : FindValidPath(Length, EDirections::Forward))
 	{
 		if (MovementCheck(Position)) Movements.Movements.Add(Position);
@@ -409,41 +442,38 @@ FMovements UChessPieceController::RookPossibleMoves() const
 
 FMovements UChessPieceController::KnightPossibleMoves() const
 {
-	TArray<FString> ValidPaths = {};
-	FString RF,RB,LF,LB;
-	// Forward
-	FString Position = UHelperFunctions::GetPositionInDirection(2, ThisPiece, EDirections::Forward);
-	int32 Letter = FCString::Atoi(*UHelperFunctions::GetNumberFromLetter(UHelperFunctions::GetPositionLetter(Position)));
-	FString Number = UHelperFunctions::GetPositionNumber(Position);
-	FString FR = UHelperFunctions::GetLetterFromNumber(FString::FromInt(Letter + 1)) + Number;
-	FString FL = UHelperFunctions::GetLetterFromNumber(FString::FromInt(Letter - 1)) + Number;
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(FR); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(FR);
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(FL); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(FL);
-	// Backward
-	Position = UHelperFunctions::GetPositionInDirection(2, ThisPiece, EDirections::Backward);
-	Letter = FCString::Atoi(*UHelperFunctions::GetNumberFromLetter(UHelperFunctions::GetPositionLetter(Position)));
-	Number = UHelperFunctions::GetPositionNumber(Position);
-	FString BR = UHelperFunctions::GetLetterFromNumber(FString::FromInt(Letter + 1)) + Number;
-	FString BL = UHelperFunctions::GetLetterFromNumber(FString::FromInt(Letter - 1)) + Number;
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(BR); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(BR);
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(BL); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(BL);
-	// Right
-	Position = UHelperFunctions::GetPositionInDirection(2, ThisPiece, EDirections::Right);
-	FString Letter2 = UHelperFunctions::GetPositionLetter(Position);
-	int32 Number2 = FCString::Atoi(*UHelperFunctions::GetPositionNumber(Position));
-	RF = Letter2 + FString::FromInt(Number2 + 1);
-	RB = Letter2 + FString::FromInt(Number2 - 1);
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(RF); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(RF);
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(RB); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(RB);
-	// Left
-	Position = UHelperFunctions::GetPositionInDirection(2, ThisPiece, EDirections::Left);
-	Letter2 = UHelperFunctions::GetPositionLetter(Position);
-	Number2 = FCString::Atoi(*UHelperFunctions::GetPositionNumber(Position));
-	LF = Letter2 + FString::FromInt(Number2 + 1);
-	LB = Letter2 + FString::FromInt(Number2 - 1);
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(LF); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(LF);
-	if (const FFindPiece FP = ChessBoardReference->GetPositionInfo(LB); !FP.PieceFound || (FP.PieceFound && FP.Team != ThisPiece->Team)) ValidPaths.Add(LB);
-	return FMovements{ValidPaths,ValidPaths};
+	TArray<FString> ValidPaths;
+
+	// Knight offsetek
+	const TArray<FIntPoint> Offsets = {
+		{  1,  2 }, { -1,  2 },
+		{  1, -2 }, { -1, -2 },
+		{  2,  1 }, {  2, -1 },
+		{ -2,  1 }, { -2, -1 }
+	};
+
+	FString CurrentLetter = ThisPiece->Position.Left(1);
+	int32 CurrentNumber = FCString::Atoi(*ThisPiece->Position.Right(1));
+
+	for (const FIntPoint& Off : Offsets)
+	{
+		int32 NLetter = FCString::Atoi(*UHelperFunctions::GetNumberFromLetter(CurrentLetter)) + Off.X;
+		int32 NNumber = CurrentNumber + Off.Y;
+
+		FString Target =
+			UHelperFunctions::GetLetterFromNumber(FString::FromInt(NLetter))
+			+ FString::FromInt(NNumber);
+
+		if (!IsValidBoardCoordinate(Target))
+			continue;
+
+		const FFindPiece FP = ChessBoardReference->GetPositionInfo(Target);
+
+		if (!FP.PieceFound || FP.Team != ThisPiece->Team)
+			ValidPaths.Add(Target);
+	}
+
+	return FMovements{ ValidPaths, ValidPaths };
 }
 
 FMovements UChessPieceController::BishopPossibleMoves() const
@@ -468,52 +498,103 @@ FMovements UChessPieceController::QueenPossibleMoves() const
 
 FMovements UChessPieceController::KingPossibleMoves()
 {
-	CastleingPoints.Empty();
-	TArray<FString> ValidPaths;
-	for (TArray Directions = {EDirections::Forward, EDirections::Backward, EDirections::Left, EDirections::Right, EDirections::ForwardLeft, EDirections::ForwardRight, EDirections::BackwardLeft, EDirections::BackwardRight}; const EDirections Direction : Directions)
-	{
-		ValidPaths.Append(FindValidPath(1, Direction));
-	}
-	
-	if (CanCastle(EDirections::Left))
-	{
-		CastleingPoints.Add(UHelperFunctions::GetPositionInDirection(ThisPiece->Team == ETeams::White ? 3 : 2,ThisPiece,EDirections::Left));
-	}
+    CastleingPoints.Empty();
+    TArray<FString> ValidPaths;
+
+    // 1 mezős mozgások
+    TArray<EDirections> Directions = {
+        EDirections::Forward, EDirections::Backward,
+        EDirections::Left, EDirections::Right,
+        EDirections::ForwardLeft, EDirections::ForwardRight,
+        EDirections::BackwardLeft, EDirections::BackwardRight
+    };
+
+    for (const EDirections Direction : Directions)
+    {
+        ValidPaths.Append(FindValidPath(1, Direction));
+    }
+
+    // --- CASTLING LOGIC ---
+    // RIGHT (king side) -> king moves 2 to the right -> target = GetPositionInDirection(2, Right)
 	if (CanCastle(EDirections::Right))
 	{
-		CastleingPoints.Add(UHelperFunctions::GetPositionInDirection(ThisPiece->Team == ETeams::White ? 2 : 3,ThisPiece,EDirections::Left));
-	}
-	TArray<FString> CastlePoints;
-	CastleingPoints.GenerateKeyArray(CastlePoints);
-	ValidPaths.Append(CastlePoints);
-	for (FString Pos : ValidPaths)
-	{
-		if (ChessBoardReference->IsPositionInDanger(Pos, ThisPiece->Team))
+		FString OneRight = UHelperFunctions::GetPositionInDirection(1, ThisPiece, EDirections::Right);
+		FString TwoRight = UHelperFunctions::GetPositionInDirection(2, ThisPiece, EDirections::Right);
+
+		if (!OneRight.IsEmpty() && !TwoRight.IsEmpty())
 		{
-			ValidPaths.Remove(Pos);
+			const bool bOneSafe = !ChessBoardReference->IsPositionInDanger(OneRight, ThisPiece->Team);
+			const bool bTwoSafe = !ChessBoardReference->IsPositionInDanger(TwoRight, ThisPiece->Team);
+
+			const bool bOneEmpty = !ChessBoardReference->AllPieces.Contains(OneRight);
+			const bool bTwoEmpty = !ChessBoardReference->AllPieces.Contains(TwoRight);
+
+			if (bOneSafe && bTwoSafe && bOneEmpty && bTwoEmpty)
+			{
+				ValidPaths.Add(TwoRight);
+				CastleingPoints.Add(TwoRight, EDirections::Right);
+			}
 		}
 	}
-	if (IsCheckMate(ValidPaths))
+
+    // LEFT (queen side) -> king moves 2 to the left -> target = GetPositionInDirection(2, Left)
+	if (CanCastle(EDirections::Left))
 	{
-		//Implement GameOver
+		FString OneLeft = UHelperFunctions::GetPositionInDirection(1, ThisPiece, EDirections::Left);
+		FString TwoLeft = UHelperFunctions::GetPositionInDirection(2, ThisPiece, EDirections::Left);
+
+		if (!OneLeft.IsEmpty() && !TwoLeft.IsEmpty())
+		{
+			const bool bOneSafe = !ChessBoardReference->IsPositionInDanger(OneLeft, ThisPiece->Team);
+			const bool bTwoSafe = !ChessBoardReference->IsPositionInDanger(TwoLeft, ThisPiece->Team);
+
+			const bool bOneEmpty = !ChessBoardReference->AllPieces.Contains(OneLeft);
+			const bool bTwoEmpty = !ChessBoardReference->AllPieces.Contains(TwoLeft);
+
+			if (bOneSafe && bTwoSafe && bOneEmpty && bTwoEmpty)
+			{
+				ValidPaths.Add(TwoLeft);
+				CastleingPoints.Add(TwoLeft, EDirections::Left); // ← helyesen
+			}
+		}
 	}
-	return FMovements{ValidPaths,ValidPaths};
+
+    // Append castle positions to valid paths (already added above), remove danger positions if any slipped in
+    // But since we already checked danger for intermediate squares, this is mostly redundant.
+    // Re-check to be safe:
+    TArray<FString> FilteredPaths;
+    for (const FString& Pos : ValidPaths)
+    {
+        if (!ChessBoardReference->IsPositionInDanger(Pos, ThisPiece->Team))
+        {
+            FilteredPaths.Add(Pos);
+        }
+    }
+
+    if (IsCheckMate(FilteredPaths))
+    {
+        // Implement GameOver
+    }
+
+    return FMovements{FilteredPaths, FilteredPaths};
 }
+
 
 FFindPiece UChessPieceController::CheckTargetTilesOccupied(UTileComponent* TargetTile)
 {
 	Mesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	ChessBoardReference->AllPieces.Remove(ThisPiece->Position);
 	HasMoved = true;
-	ThisPiece->Position = TargetTile->GetTileName();
-	return ChessBoardReference->GetPositionInfo(ThisPiece->Position);
+	return ChessBoardReference->GetPositionInfo(TargetTile->GetName());
 }
 
 FVector UChessPieceController::GetMoveDestination(UTileComponent* TargetTile) const
 {
 	ChessBoardReference->AllPieces.Remove(ThisPiece->Position);
 	ChessBoardReference->AllPieces.Add(TargetTile->GetTileName(), ThisPiece);
-	return TargetTile->GetComponentLocation() + FVector(0.f,0.f,110.f);
+	return TargetTile->GetComponentLocation() + FVector(0.f ,0.f,112.318839f);
+
+	
 }
 
 FVector UChessPieceController::FindAtkPos(const AMasterPiece* AttackedPiece) const
@@ -602,6 +683,7 @@ void UChessPieceController::Promote(EPieceTypes PromoteTo) const
 {
 	if (CanPromote())
 	{
+		PromoteWidget->RemoveFromParent();
 		switch (PromoteTo)
 		{
 		case EPieceTypes::Bishop:
@@ -634,4 +716,55 @@ void UChessPieceController::PromotePiece(const TSubclassOf<AMasterPiece> White, 
 	ChessBoardReference->Promote(ThisPiece->Position, ThisPiece, ThisPiece->Team == ETeams::White ? White : Black);
 }
 
+bool UChessPieceController::IsValidBoardCoordinate(const FString& Coord) const
+{
+	if (Coord.Len() != 2)
+		return false;
 
+	TCHAR Letter = Coord[0];
+	TCHAR Number = Coord[1];
+
+	// Betu A–H
+	if (Letter < 'A' || Letter > 'H')
+		return false;
+
+	// Szam 1–8
+	if (Number < '1' || Number > '8')
+		return false;
+
+	return true;
+}
+void UChessPieceController::SetFinalRotationLocked() const
+{
+	if (!ThisPiece) return;
+	FRotator FinalRot = ThisPiece->Team == ETeams::White
+	? FRotator(0, 180, 0)
+	: FRotator(0, 0, 0);
+	// Tick 0 - azonnali set
+	ThisPiece->SetActorRotation(FinalRot);
+
+	// Tick 1
+	FTimerHandle Timer1;
+	ThisPiece->GetWorld()->GetTimerManager().SetTimer(
+		Timer1,
+		FTimerDelegate::CreateLambda([this, FinalRot]()
+		{
+			if (ThisPiece)
+				ThisPiece->SetActorRotation(FinalRot);
+
+			// Tick 2
+			FTimerHandle Timer2;
+			ThisPiece->GetWorld()->GetTimerManager().SetTimer(
+				Timer2,
+				FTimerDelegate::CreateLambda([this, FinalRot]()
+				{
+					if (ThisPiece)
+						ThisPiece->SetActorRotation(FinalRot);
+
+				}),
+				0.01f, false
+			);
+		}),
+		0.01f, false
+	);
+}
