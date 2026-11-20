@@ -1,256 +1,187 @@
-[chaze@archlinux archcraft-openbox]$ yay -Si polybar tint2 rofi dunst nitrogen plank pulsemixer pastel python-pywal xfce4-settings xmlstarlet python-lxml
+===== CSOMAGOK ELÉRHETŐSÉGE =====
 Tároló                                 : extra
-Név                                    : polybar
-Verzió                                 : 3.7.2-3
-Leírás                                 : A fast and easy-to-use status bar
+Név                                    : alacritty
+Verzió                                 : 0.17.0-1
+Leírás                                 : A cross-platform, GPU-accelerated terminal emulator
 Architektúra                           : x86_64
-Webcím                                 : https://github.com/polybar/polybar
-Licencek                               : MIT
+Webcím                                 : https://github.com/alacritty/alacritty
+Licencek                               : Apache-2.0  MIT
 Csoportok                              : Nincs
 Szolgáltatja                           : Nincs
-Függőségek                             : libuv  cairo  xcb-util-image  xcb-util-wm  xcb-util-xrm
-                                         xcb-util-cursor  alsa-lib  libpulse  libmpdclient  libnl  jsoncpp
-                                         curl
-Nem kötelező függőségek                : i3-wm: i3 module support
+Függőségek                             : freetype2  fontconfig  libxi  libxcursor  libxkbcommon  libxkbcommon-x11  libxrandr
+Nem kötelező függőségek                : ncurses: for alacritty terminfo database
 Ütközik ezzel                          : Nincs
 Lecseréli                              : Nincs
-Letöltési méret                        : 786,69 KiB
-Telepített méret                       : 2593,86 KiB
-Csomagoló                              : Antonio Rojas <arojas@archlinux.org>
-Összeállítás dátuma                    : 2026. szept. 1., kedd, 19:53:30 CEST
+Letöltési méret                        : 2,48 MiB
+Telepített méret                       : 8,30 MiB
+Csomagoló                              : T.J. Townsend <blakkheim@archlinux.org>
+Összeállítás dátuma                    : 2026. ápr. 6., hétfő, 21:30:28 CEST
 Érvényesítette:                        : SHA-256-összeg  Aláírás
 
 Tároló                                 : extra
-Név                                    : tint2
-Verzió                                 : 17.0.2-7
-Leírás                                 : Basic, good-looking task manager for WMs
+Név                                    : picom
+Verzió                                 : 13-2
+Leírás                                 : Lightweight compositor for X11
 Architektúra                           : x86_64
-Webcím                                 : https://gitlab.com/o9000/tint2
-Licencek                               : GPL-2.0-only
+Webcím                                 : https://picom.app
+Licencek                               : MPL-2.0 AND MIT
 Csoportok                              : Nincs
 Szolgáltatja                           : Nincs
-Függőségek                             : gtk3  imlib2  startup-notification
-Nem kötelező függőségek                : Nincs
+Függőségek                             : hicolor-icon-theme  libconfig  libdbus  libepoxy  libev  libgl  pcre2  pixman  xcb-util-image  xcb-util-renderutil
+Nem kötelező függőségek                : dbus: for controlling picom via D-Bus
+                                         python: for running picom-convgen.py
+                                         rtkit: for realtime scheduling priority
+                                         xorg-xprop: for picom-trans
+                                         xorg-xwininfo: for picom-trans
 Ütközik ezzel                          : Nincs
 Lecseréli                              : Nincs
-Letöltési méret                        : 366,96 KiB
-Telepített méret                       : 1311,89 KiB
-Csomagoló                              : Alexander F. Rødseth <xyproto@archlinux.org>
-Összeállítás dátuma                    : 2026. okt. 4., vasárnap, 17:15:24 CEST
+Letöltési méret                        : 259,34 KiB
+Telepített méret                       : 784,03 KiB
+Csomagoló                              : Robin Candau <antiz@archlinux.org>
+Összeállítás dátuma                    : 2026. ápr. 3., péntek, 16:23:03 CEST
 Érvényesítette:                        : SHA-256-összeg  Aláírás
 
 Tároló                                 : extra
-Név                                    : rofi
-Verzió                                 : 2.1.1-1
-Leírás                                 : A window switcher, application launcher and dmenu replacement
+Név                                    : thunar
+Verzió                                 : 4.20.10-1
+Leírás                                 : Modern, fast and easy-to-use file manager for Xfce
 Architektúra                           : x86_64
-Webcím                                 : https://davatorium.github.io/rofi
-Licencek                               : MIT
-Csoportok                              : Nincs
-Szolgáltatja                           : rofi-wayland
-Függőségek                             : bash  cairo  gdk-pixbuf2  glib2  glibc  hicolor-icon-theme  libxcb
-                                         libxkbcommon  libxkbcommon-x11  pango  startup-notification  wayland
-                                         xcb-imdkit  xcb-util  xcb-util-cursor  xcb-util-keysyms  xcb-util-wm
-Nem kötelező függőségek                : Nincs
-Ütközik ezzel                          : Nincs
-Lecseréli                              : rofi-wayland
-Letöltési méret                        : 619,20 KiB
-Telepített méret                       : 1127,55 KiB
-Csomagoló                              : Lukas Fleischer <lfleischer@archlinux.org>
-Összeállítás dátuma                    : 2026. nov. 10., kedd, 20:38:24 CET
-Érvényesítette:                        : SHA-256-összeg  Aláírás
-
-Tároló                                 : extra
-Név                                    : dunst
-Verzió                                 : 1.13.2-3
-Leírás                                 : Customizable and lightweight notification-daemon
-Architektúra                           : x86_64
-Webcím                                 : https://dunst-project.org/
-Licencek                               : BSD
-Csoportok                              : Nincs
+Webcím                                 : https://docs.xfce.org/xfce/thunar/start
+Licencek                               : GPL-2.0-or-later  LGPL-2.1-only
+Csoportok                              : xfce4
 Szolgáltatja                           : Nincs
-Függőségek                             : libxinerama  dbus  systemd  wayland  libxss  pango  gdk-pixbuf2
-                                         libxrandr  glib2
-Nem kötelező függőségek                : libnotify: dunstify
+Függőségek                             : desktop-file-utils  libexif  hicolor-icon-theme  libnotify  pcre2  libgudev  exo  libxfce4util  libxfce4ui
+Nem kötelező függőségek                : catfish: file searching
+                                         gvfs: trash support, mounting with udisk and remote filesystems
+                                         tumbler: thumbnail previews
+                                         thunar-volman: removable device management
+                                         thunar-archive-plugin: archive creation and extraction
+                                         thunar-media-tags-plugin: view/edit ID3/OGG tags
 Ütközik ezzel                          : Nincs
 Lecseréli                              : Nincs
-Letöltési méret                        : 120,71 KiB
-Telepített méret                       : 291,03 KiB
-Csomagoló                              : Balló György <bgyorgy@archlinux.org>
-Összeállítás dátuma                    : 2026. okt. 4., vasárnap, 15:22:30 CEST
+Letöltési méret                        : 1597,75 KiB
+Telepített méret                       : 9807,71 KiB
+Csomagoló                              : Robin Candau <antiz@archlinux.org>
+Összeállítás dátuma                    : 2026. szept. 12., szombat, 09:16:46 CEST
 Érvényesítette:                        : SHA-256-összeg  Aláírás
 
 Tároló                                 : extra
-Név                                    : plank
-Verzió                                 : 0.11.89-6
-Leírás                                 : Elegant, simple, clean dock
+Név                                    : xfce4-power-manager
+Verzió                                 : 4.20.1-1
+Leírás                                 : Power Manager for Xfce
 Architektúra                           : x86_64
-Webcím                                 : https://launchpad.net/plank
-Licencek                               : GPL3
-Csoportok                              : Nincs
-Szolgáltatja                           : Nincs
-Függőségek                             : atk  bamf  cairo  gdk-pixbuf2  glib2  glibc  gnome-menus  gtk3  libgee
-                                         libwnck3  libx11  libxfixes  libxi  pango
-Nem kötelező függőségek                : Nincs
-Ütközik ezzel                          : Nincs
-Lecseréli                              : Nincs
-Letöltési méret                        : 417,10 KiB
-Telepített méret                       : 1573,62 KiB
-Csomagoló                              : Balló György <bgyorgy@archlinux.org>
-Összeállítás dátuma                    : 2026. aug. 24., hétfő, 15:04:26 CEST
-Érvényesítette:                        : SHA-256-összeg  Aláírás
-
-Tároló                                 : extra
-Név                                    : pulsemixer
-Verzió                                 : 1.5.1-8
-Leírás                                 : CLI and curses mixer for pulseaudio
-Architektúra                           : any
-Webcím                                 : https://github.com/GeorgeFilipkin/pulsemixer
-Licencek                               : MIT
-Csoportok                              : Nincs
-Szolgáltatja                           : Nincs
-Függőségek                             : python  pulse-native-provider
-Nem kötelező függőségek                : Nincs
-Ütközik ezzel                          : Nincs
-Lecseréli                              : Nincs
-Letöltési méret                        : 22,03 KiB
-Telepített méret                       : 101,84 KiB
-Csomagoló                              : Jelle van der Waa <jelle@archlinux.org>
-Összeállítás dátuma                    : 2025. dec. 14., vasárnap, 15:32:18 CET
-Érvényesítette:                        : SHA-256-összeg  Aláírás
-
-Tároló                                 : extra
-Név                                    : pastel
-Verzió                                 : 0.12.0-1
-Leírás                                 : A command-line tool to generate, analyze, convert and manipulate colors
-Architektúra                           : x86_64
-Webcím                                 : https://github.com/sharkdp/pastel
-Licencek                               : MIT  Apache-2.0
-Csoportok                              : Nincs
-Szolgáltatja                           : Nincs
-Függőségek                             : glibc  libgcc
-Nem kötelező függőségek                : gpick: external color picker
-                                         xcolor: external color picker
-                                         zenity: external color picker
-                                         yad: external color picker
-                                         kcolorchooser: external color picker
-Ütközik ezzel                          : Nincs
-Lecseréli                              : Nincs
-Letöltési méret                        : 466,63 KiB
-Telepített méret                       : 1255,55 KiB
-Csomagoló                              : George Rawlinson <grawlinson@archlinux.org>
-Összeállítás dátuma                    : 2026. febr. 15., vasárnap, 08:15:00 CET
-Érvényesítette:                        : SHA-256-összeg  Aláírás
-
-Tároló                                 : extra
-Név                                    : xfce4-settings
-Verzió                                 : 4.20.5-1
-Leírás                                 : Xfce's Configuration System
-Architektúra                           : x86_64
-Webcím                                 : https://docs.xfce.org/xfce/xfce4-settings/start
+Webcím                                 : https://docs.xfce.org/xfce/xfce4-power-manager/start
 Licencek                               : GPL-2.0-or-later
 Csoportok                              : xfce4
 Szolgáltatja                           : Nincs
-Függőségek                             : exo  garcon  libxfce4ui  xfconf  libnotify  libcanberra  colord
-                                         libxklavier  elementary-icon-theme  gnome-themes-extra
-Nem kötelező függőségek                : python: xfce4-compose-mail -- "mailto:" URI handling
-                                         xiccd: for displays support in xfce4-color-settings
-                                         cups: for printers support in xfce4-color-settings
-                                         sane: for scanners support in xfce4-color-settings
+Függőségek                             : libxfce4ui  upower  libnotify  hicolor-icon-theme
+Nem kötelező függőségek                : xfce4-notifyd: status notifications
 Ütközik ezzel                          : Nincs
 Lecseréli                              : Nincs
-Letöltési méret                        : 988,48 KiB
-Telepített méret                       : 6633,94 KiB
+Letöltési méret                        : 532,47 KiB
+Telepített méret                       : 3536,53 KiB
 Csomagoló                              : Robin Candau <antiz@archlinux.org>
-Összeállítás dátuma                    : 2026. júl. 30., csütörtök, 09:48:23 CEST
+Összeállítás dátuma                    : 2026. júl. 30., csütörtök, 09:46:47 CEST
 Érvényesítette:                        : SHA-256-összeg  Aláírás
 
+hiba: a(z) „xfce-polkit” csomag nem található
+hiba: a(z) „ksuperkey” csomag nem található
 Tároló                                 : extra
-Név                                    : xmlstarlet
-Verzió                                 : 1.7.0-1
-Leírás                                 : A set of tools to transform, query, validate, and edit XML documents
+Név                                    : mesa-utils
+Verzió                                 : 9.0.0-7
+Leírás                                 : Essential Mesa utilities
 Architektúra                           : x86_64
-Webcím                                 : https://xmlstarlet.github.io/
+Webcím                                 : https://www.mesa3d.org/
 Licencek                               : MIT
 Csoportok                              : Nincs
-Szolgáltatja                           : Nincs
-Függőségek                             : libxslt
+Szolgáltatja                           : glxinfo  glxgears  eglinfo  eglgears  es2info  es2gears
+Függőségek                             : libgl  libdecor  libxkbcommon-x11  vulkan-icd-loader  libxcb  wayland  libdrm  libx11  libxkbcommon  glibc
 Nem kötelező függőségek                : Nincs
 Ütközik ezzel                          : Nincs
 Lecseréli                              : Nincs
-Letöltési méret                        : 149,46 KiB
-Telepített méret                       : 551,87 KiB
-Csomagoló                              : Robin Candau <antiz@archlinux.org>
-Összeállítás dátuma                    : 2026. szept. 9., szerda, 16:01:28 CEST
+Letöltési méret                        : 151,59 KiB
+Telepített méret                       : 781,30 KiB
+Csomagoló                              : Sven-Hendrik Haase <svenstaro@archlinux.org>
+Összeállítás dátuma                    : 2025. jún. 14., szombat, 01:34:53 CEST
 Érvényesítette:                        : SHA-256-összeg  Aláírás
 
 Tároló                                 : extra
-Név                                    : python-lxml
-Verzió                                 : 6.1.3_1-1
-Leírás                                 : Python binding for the libxml2 and libxslt libraries
+Név                                    : libnotify
+Verzió                                 : 0.8.9-1
+Leírás                                 : Library for sending desktop notifications
 Architektúra                           : x86_64
-Webcím                                 : https://lxml.de/
-Licencek                               : BSD-3-Clause  MIT  MIT-CMU  GPL-2.0-only  LicenseRef-RNG2Schtrn
-                                         LicenseRef-XSD2Schtrn
+Webcím                                 : https://gitlab.gnome.org/GNOME/libnotify
+Licencek                               : LGPL-2.1-or-later
 Csoportok                              : Nincs
-Szolgáltatja                           : Nincs
-Függőségek                             : glibc  python  libxslt  libxml2
-Nem kötelező függőségek                : python-beautifulsoup4: support for beautifulsoup parser to parse not
-                                         well formed HTML
-                                         python-cssselect: support for cssselect
-                                         python-html5lib: support for html5lib parser
-                                         python-lxml-docs: offline docs
-                                         python-lxml-html-clean: enable htmlclean feature
+Szolgáltatja                           : libnotify.so=4-64
+Függőségek                             : gdk-pixbuf2  glib2  glibc  libgcc
+Nem kötelező függőségek                : Nincs
 Ütközik ezzel                          : Nincs
 Lecseréli                              : Nincs
-Letöltési méret                        : 1622,27 KiB
-Telepített méret                       : 6082,13 KiB
-Csomagoló                              : Jelle van der Waa <jelle@archlinux.org>
-Összeállítás dátuma                    : 2026. szept. 2., szerda, 13:54:14 CEST
+Letöltési méret                        : 41,26 KiB
+Telepített méret                       : 172,51 KiB
+Csomagoló                              : Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+Összeállítás dátuma                    : 2026. okt. 18., vasárnap, 07:28:53 CEST
 Érvényesítette:                        : SHA-256-összeg  Aláírás
 
-Tároló                        : aur
-Név                           : nitrogen
-Verzió                        : 1.6.1-6
-Leírás                        : Background browser and setter for X windows
-Webcím                        : https://github.com/l3ib/nitrogen
-Licencek                      : GPL
-Csoportok                     : Semmi
-Szolgáltatók                  : Semmi
-Függőség(ek)                  : gtkmm  hicolor-icon-theme  librsvg
-Nem kötelező függőségek       : Semmi
-Fordítási függőségek          : Semmi
-Függőségek ellenőrzése        : Semmi
-Ütközik a következővel        : Semmi
-Cserék                        : Semmi
-AUR webcím                    : https://aur.archlinux.org/packages/nitrogen
-Először beküldve              : Sat 25 Oct 2025 08:20:05 PM CEST
-Kulcsszavak                   : Semmi
-Legutóbb módosítva            : Sat 25 Oct 2025 08:20:05 PM CEST
-Karbantartó                   : victor3d
-Népszerűség                   : 0.013612
-Szavazatok                    : 4
-Elavult                       : No
-
-Tároló                        : aur
-Név                           : python-pywal
-Verzió                        : 3.3.0-11
-Leírás                        : Generate and change colorschemes on the fly
-Webcím                        : https://github.com/dylanaraps/pywal/
-Licencek                      : MIT
-Csoportok                     : Semmi
-Szolgáltatók                  : Semmi
-Függőség(ek)                  : python  imagemagick
-Nem kötelező függőségek       : feh  nitrogen
-Fordítási függőségek          : python-setuptools
-Függőségek ellenőrzése        : Semmi
-Ütközik a következővel        : Semmi
-Cserék                        : Semmi
-AUR webcím                    : https://aur.archlinux.org/packages/python-pywal
-Először beküldve              : Sun 30 Aug 2026 07:35:58 PM CEST
-Kulcsszavak                   : Semmi
-Legutóbb módosítva            : Sun 30 Aug 2026 07:35:58 PM CEST
-Karbantartó                   : Semmi
-Népszerűség                   : 0.240791
-Szavazatok                    : 1
-Elavult                       : No
+===== ARCHCRAFT ALKALMAZÁSKONFIGOK =====
+===== PANEL MÓDJA =====
+polybar
+===== ARCHCRAFT SAJÁT PARANCSAI =====
+archcraft-openbox /etc/skel/.config/openbox/scripts/
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-asroot
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-brightness
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-colorpicker
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-furminal
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-music
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-picom
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-screenshot
+archcraft-openbox /etc/skel/.config/openbox/scripts/ob-volume
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-askpass
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-bluetooth
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-launcher
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-music
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-powermenu
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-runner
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-screenshot
+archcraft-openbox /etc/skel/.config/openbox/scripts/rofi-spotify
+archcraft-openbox /etc/skel/.config/openbox/scripts/tint2-battery
+archcraft-openbox /etc/skel/.config/openbox/scripts/tint2-bluetooth
+archcraft-openbox /etc/skel/.config/openbox/scripts/tint2-brightness
+archcraft-openbox /etc/skel/.config/openbox/scripts/tint2-network
+archcraft-openbox /etc/skel/.config/openbox/scripts/tint2-volume
+archcraft-openbox /etc/skel/.config/openbox/themes/adaptive/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/adaptive/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/beach/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/beach/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/default/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/default/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/default/polybar/scripts/spotify.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/easy/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/easy/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/easy/polybar/scripts/polywins.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/forest/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/forest/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/gray/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/gray/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/hack/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/hack/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/hack/polybar/scripts/check-network
+archcraft-openbox /etc/skel/.config/openbox/themes/hack/polybar/scripts/checkupdates
+archcraft-openbox /etc/skel/.config/openbox/themes/hack/polybar/scripts/updates.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/kiss/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/kiss/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/manhattan/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/manhattan/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/nord/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/nord/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/rainy/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/rainy/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/red/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/red/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/slime/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/slime/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/spark/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/spark/polybar/scripts/bluetooth.sh
+archcraft-openbox /etc/skel/.config/openbox/themes/wave/polybar/scripts/
+archcraft-openbox /etc/skel/.config/openbox/themes/wave/polybar/scripts/bluetooth.sh
