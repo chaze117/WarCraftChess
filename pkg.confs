@@ -1,0 +1,402 @@
+===== PACKAGECHOOSER.CONF =====
+# SPDX-FileCopyrightText: no
+# SPDX-License-Identifier: CC0-1.0
+#
+# Configuration for the low-density software chooser
+---
+# Software selection mode, to set whether the software packages
+# can be chosen singly, or multiply.
+#
+# Possible modes are "optional", "required" (for zero-or-one or exactly-one)
+# or "optionalmultiple", "requiredmultiple" (for zero-or-more
+# or one-or-more).
+mode: required
+
+# Software installation method:
+#
+# - "legacy" or "custom" or "contextualprocess"
+#   When set to "legacy", writes a GlobalStorage value for the choice that
+#   has been made. The key is *packagechooser_<id>*. The module's
+#   instance name is used; see the *instances* section of `settings.conf`.
+#   If there is just one packagechooser module, and no special instance is set,
+#   resulting GS key is probably *packagechooser_packagechooser*.
+#
+#   The GS value is a comma-separated list of the IDs of the selected
+#   packages, or an empty string if none is selected.
+#
+#   With "legacy" installation, you should have a contextualprocess or similar
+#   module somewhere in the `exec` phase to process the GlobalStorage key
+#   and actually **do** something for the packages.
+#
+# - "packages"
+#   When set to "packages", writes GlobalStorage values suitable for
+#   consumption by the *packages* module (which should appear later
+#   in the `exec` section. These package settings will then be handed
+#   off to whatever package manager is configured there.
+#
+# - "netinstall-select"
+#   When this is set, the id(s) selected are passed to the netinstall module.
+#   Any id that matches a group name in that module is set to checked
+#
+# - "netinstall-add"
+#   With this method, the packagechooser module is used to add groups to the
+#   netinstall module.  For this to have any effect.  You must set netinstall,
+#   which is described below.
+#
+# There is no need to put this module in the `exec` section. There
+# are no jobs that this module provides. You should put **other**
+# modules, either *contextualprocess* or *packages* or some custom
+# module, in the `exec` section to do the actual work.
+method: legacy
+
+
+# Human-visible strings in this module. These are all optional.
+# The following translated keys are used:
+#  - *step*, used in the overall progress view (left-hand pane)
+#
+# Each key can have a [locale] added to it, which is used as
+# the translated string for that locale. For the strings
+# associated with the "no-selection" item, see *items*, below
+# with the explicit item-*id* "".
+#
+labels:
+    step: "Packages"
+    step[nl]: "Pakketten"
+
+# (Optional) item-*id* of pre-selected list-view item.
+# Pre-selects one of the items below.
+# default: kde
+
+# Items to display in the chooser. In general, this should be a
+# pretty short list to avoid overwhelming the UI. This is a list
+# of objects, and the items are displayed in list order.
+#
+# Either provide the data for an item in the list (using the keys
+# below), or use existing AppData XML files, or use AppStream cache
+# as a source for the data.
+#
+# For data provided by the list: the item has an id, which is used in
+# setting the value of *packagechooser_<module-id>*. The following field
+# is mandatory:
+#
+#  - *id*
+#       ID for the product. The ID "" is special, and is used for
+#       "no package selected". Only include this if the mode allows
+#       selecting none. The name and description given for the "no package
+#       selected" item are displayed when the module starts.
+#
+# Each item must adhere to one of three "styles" of item. Which styles
+# are supported depends on compile-time dependencies of Calamares.
+# Both AppData and AppStream may **optionally** be available.
+#
+# # Generic Items #
+#
+# These items are always supported. They require the most configuration
+# **in this file** and duplicate information that may be available elsewhere
+# (e.g. in AppData or AppStream), but do not require any additional
+# dependencies. These items have the following **mandatory** fields:
+#
+#  - *name*
+#       Human-readable name of the product. To provide translations,
+#       add a *[lang]* decoration as part of the key name, e.g. `name[nl]`
+#       for Dutch. The list of usable languages can be found in
+#       `CMakeLists.txt` or as part of the debug output of Calamares.
+#  - *description*
+#       Human-readable description. These can be translated as well.
+#  - *screenshot*
+#       Path to a single screenshot of the product. May be a filesystem
+#       path or a QRC path, e.g. ":/images/no-selection.png". If the path
+#       is not found (e.g. is a non-existent absolute path, or is a relative
+#       path that does not exist in the current working directory) then
+#       an additional attempt is made to load the image from the **branding**
+#       directory.
+#
+# The following fields are **optional** for an item:
+#
+#  - *packages* :
+#       List of package names for the product. If using the *method*
+#       "packages", consider this item mandatory (because otherwise
+#       selecting the item would install no packages).
+#
+#  - *netinstall* :
+#       The data in this field should follow the format of a group
+#       from the netinstall module documented in
+#       src/modules/netinstall/netinstall.conf.  This is only used
+#       when method is set to "netinstall-add"
+#
+# # AppData Items #
+#
+# For data provided by AppData XML: the item has an *appdata*
+# key which points to an AppData XML file in the local filesystem.
+# This file is parsed to provide the id (from AppData id), name
+# (from AppData name), description (from AppData description paragraphs
+# or the summary entries), and a screenshot (the default screenshot
+# from AppData). No package is set (but that is unused anyway).
+#
+# AppData may contain IDs that are not useful inside Calamares,
+# and the screenshot URL may be remote -- a remote URL will not
+# be loaded and the screenshot will be missing. An item with *appdata*
+# **may** specify an ID or screenshot path, as above. This will override
+# the settings from AppData.
+#
+# # AppStream Items #
+#
+# For data provided by AppStream cache: the item has an *appstream*
+# key which matches the AppStream identifier in the cache (e.g.
+# *org.kde.kwrite.desktop*). Data is retrieved from the AppStream
+# cache for that ID. The package name is set from the AppStream data.
+#
+# An item for AppStream may also contain an *id* and a *screenshot*
+# key which will override the data from AppStream.
+items:
+    - id: ""
+      # packages: [] # This item installs no packages
+      name: "No Desktop"
+      name[nl]: "Geen desktop"
+      description: "Please pick a desktop environment from the list. If you don't want to install a desktop, that's fine, your system will start up in text-only mode and you can install a desktop environment later."
+      description[nl]: "Kies eventueel een desktop-omgeving uit deze lijst. Als u geen desktop-omgeving wenst te gebruiken, kies er dan geen. In dat geval start het systeem straks op in tekst-modus en kunt u later alsnog een desktop-omgeving installeren."
+      screenshot: ":/images/no-selection.png"
+    - id: kde
+      packages: [ kde-frameworks, kde-plasma, kde-gear ]
+      name: Plasma Desktop
+      description: "KDE Plasma Desktop, simple by default, a clean work area for real-world usage which intends to stay out of your way. Plasma is powerful when needed, enabling the user to create the workflow that makes them more effective to complete their tasks."
+      screenshot: ":/images/kde.png"
+    - id: gnome
+      packages: [ gnome-all ]
+      name: GNOME
+      description: GNU Networked Object Modeling Environment Desktop
+      screenshot: ":/images/gnome.png"
+    - id: calamares
+      appdata: ../io.calamares.calamares.appdata.xml
+      screenshot: ":/images/calamares.png"
+    - id: kate
+      appstream: org.kde.kwrite.desktop
+
+===== PACKAGECHOOSER MODULE.DESC =====
+# AUTO-GENERATED metadata file
+# Syntax is YAML 1.2
+---
+type: "viewmodule"
+name: "packagechooser"
+interface: "qtplugin"
+load: "libcalamares_viewmodule_packagechooser.so"
+
+===== PACKAGES MODULUS =====
+# SPDX-FileCopyrightText: no
+# SPDX-License-Identifier: CC0-1.0
+#
+# The configuration for the package manager starts with the
+# *backend* key, which picks one of the backends to use.
+# In `main.py` there is a base class `PackageManager`.
+# Implementations must subclass that and set a (class-level)
+# property *backend* to the name of the backend (e.g. "dummy").
+# That property is used to match against the *backend* key here.
+#
+# You will have to add such a class for your package manager.
+# It is fairly simple Python code. The API is described in the
+# abstract methods in class `PackageManager`. Mostly, the only
+# trick is to figure out the correct commands to use, and in particular,
+# whether additional switches are required or not. Some package managers
+# have more installer-friendly defaults than others, e.g., DNF requires
+# passing --disablerepo=* -C to allow removing packages without Internet
+# connectivity, and it also returns an error exit code if the package did
+# not exist to begin with.
+---
+#
+# Which package manager to use, options are:
+#  - apk         - Alpine Linux package manager
+#  - apt         - APT frontend for DEB and RPM
+#  - dnf         - DNF, the new RPM frontend
+#  - dnf5        - DNF5, the newer new RPM frontend
+#  - entropy     - Sabayon package manager (is being deprecated)
+#  - luet        - Sabayon package manager (next-gen)
+#  - packagekit  - PackageKit CLI tool
+#  - pacman      - Pacman
+#  - pamac       - Manjaro package manager
+#  - portage     - Gentoo package manager
+#  - yum         - Yum RPM frontend
+#  - zypp        - Zypp RPM frontend
+#
+# Not actually a package manager, but suitable for testing:
+#  - dummy       - Dummy manager, only logs
+#
+backend: dummy
+
+#
+# Often package installation needs an internet connection.
+# Since you may allow system installation without a connection
+# and want to offer OPTIONAL package installation, it's
+# possible to have no internet, yet have this packages module
+# enabled in settings.
+#
+# You can skip the whole module when there is no internet
+# by setting "skip_if_no_internet" to true.
+#
+# You can run a package-manager specific update procedure
+# before installing packages (for instance, to update the
+# list of packages and dependencies); this is done only if there
+# is an internet connection.
+#
+# Set "update_db" to 'true' for refreshing the database on the
+# target system. On target installations, which got installed by
+# unsquashing, a full system update may be needed. Otherwise
+# post-installing additional packages may result in conflicts.
+# Therefore set also "update_system" to 'true'.
+#
+# If you want to ignore software database update failures, set
+# "ignore_update_db_error" to 'true'.
+#
+skip_if_no_internet: false
+update_db: true
+ignore_update_db_error: false
+update_system: false
+
+# pacman specific options
+#
+# *num_retries* should be a positive integer which specifies the
+# number of times the call to pacman will be retried in the event of a
+# failure.  If it is missing, it will be set to 0.
+#
+# *disable_download_timeout* is a boolean that, when true, includes
+# the flag --disable-download-timeout on calls to pacman.  When missing,
+# false is assumed.
+#
+# *needed_only* is a boolean that includes the pacman argument --needed
+# when set to true.  If missing, false is assumed.
+pacman:
+    num_retries: 0
+    disable_download_timeout: false
+    needed_only: false
+
+#
+# List of maps with package operations such as install or remove.
+# Distro developers can provide a list of packages to remove
+# from the installed system (for instance packages meant only
+# for the live system).
+#
+# A job implementing a distro specific logic to determine other
+# packages that need to be installed or removed can run before
+# this one. Distro developers may want to install locale packages
+# or remove drivers not needed on the installed system.
+# Such a job would populate a list of dictionaries in the global
+# storage called "packageOperations" and that list is processed
+# after the static list in the job configuration (i.e. the list
+# that is in this configuration file).
+#
+# Allowed package operations are:
+#  - *install*, *try_install*: will call the package manager to
+#       install one or more packages. The install target will
+#       abort the whole installation if package-installation
+#       fails, while try_install carries on. Packages may be
+#       listed as (localized) names, or as (localized) package-data.
+#       See below for the description of the format.
+# - *localInstall*: this is used to call the package manager
+#       to install a package from a path-to-a-package. This is
+#       useful if you have a static package archive on the install media.
+#       The *pacman* package manager is the only one to specially support
+#       this operation (all others treat this the same as *install*).
+# - *remove*, *try_remove*: will call the package manager to
+#       remove one or more packages. The remove target will
+#       abort the whole installation if package-removal fails,
+#       while try_remove carries on. Packages may be listed as
+#       (localized) names.
+# One additional key is recognized, to help netinstall out:
+# - *source*: ignored, does get logged
+# Any other key is ignored, and logged as a warning.
+#
+# There are two formats for naming packages: as a name or as package-data,
+# which is an object notation providing package-name, as well as pre- and
+# post-install scripts.
+#
+# Here are both formats, for installing vi. The first one just names the
+# package for vi (using the naming of the installed package manager), while
+# the second contains three data-items; the pre-script is run before invoking
+# the package manager, and the post-script runs once it is done.
+#
+# - install
+#   - vi
+#   - package: vi
+#     pre-script: touch /tmp/installing-vi
+#     post-script: rm -f /tmp/installing-vi
+#
+# The pre- and post-scripts are optional, but you cannot leave both out
+# if you do use the *package* key: using "package: vi" with neither script
+# option will trick Calamares into trying to install a package named
+# "package: vi", which is unlikely to work.
+#
+# The pre- and post-scripts are **not** executed by a shell unless you
+# explicitly invoke `/bin/sh` in them. The command-lines are passed
+# to exec(), which does not understand shell syntax. In other words:
+#
+#     pre-script: ls | wc -l
+#
+# Will fail, because `|` is passed as a command-line argument to ls,
+# as are `wc`, and `-l`. No shell pipeline is set up, and ls is likely
+# to complain. Invoke the shell explicitly:
+#
+#     pre-script: /bin/sh -c \"ls | wc -l\"
+#
+# The above note on shell-expansion applies to versions up-to-and-including
+# Calamares 3.2.12, but will change in future.
+#
+# Any package name may be localized; this is used to install localization
+# packages for software based on the selected system locale. By including
+# the string `LOCALE` in the package name, the following happens:
+#
+# - if the system locale is English (any variety), then the package is not
+#   installed at all,
+# - otherwise `$LOCALE` or `${LOCALE}` is replaced by the 'lower-cased' BCP47
+#   name of the 'language' part of the selected system locale (not the
+#   country/region/dialect part), e.g. selecting "nl_BE" will use "nl"
+#   here.
+#
+# Take care that just plain `LOCALE` will not be replaced, so `foo-LOCALE` will
+# be left unchanged, while `foo-$LOCALE` will be changed. However, `foo-LOCALE`
+# **will** be removed from the list of packages (i.e. not installed), if
+# English is selected. If a non-English locale is selected, then `foo-LOCALE`
+# will be installed, unchanged (no language-name-substitution occurs).
+#
+# The following installs localizations for vi, if they are relevant; if
+# there is no localization, installation continues normally.
+#
+# - install
+#   - vi-$LOCALE
+#   - package: vi-${LOCALE}
+#     pre-script: touch /tmp/installing-vi
+#     post-script: rm -f /tmp/installing-vi
+#
+# When installing packages, Calamares will invoke the package manager
+# with a list of package names if it can; package-data prevents this because
+# of the scripts that need to run. In other words, this:
+#
+# - install:
+#   - vi
+#   - binutils
+#   - package: wget
+#     pre-script: touch /tmp/installing-wget
+#
+# This will invoke the package manager three times, once for each package,
+# because not all of them are simple package names. You can speed up the
+# process if you have only a few pre-scripts, by using multiple install targets:
+#
+# - install:
+#   - vi
+#   - binutils
+# - install:
+#   - package: wget
+#     pre-script: touch /tmp/installing-wget
+#
+# This will call the package manager once with the package-names "vi" and
+# "binutils", and then a second time for "wget". When installing large numbers
+# of packages, this can lead to a considerable time savings.
+#
+operations:
+  - install:
+    - vi
+    - vi-${LOCALE}
+    - wget
+    - binutils
+  - remove:
+    - vi
+    - wget
+    - binutils
