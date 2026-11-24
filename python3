@@ -1,0 +1,486 @@
+===== ROOT MOUNT POINT =====
+src/modules/grubcfg/main.py-306-    """
+src/modules/grubcfg/main.py-307-    fw_type = libcalamares.globalstorage.value("firmwareType")
+src/modules/grubcfg/main.py-308-    partitions = libcalamares.globalstorage.value("partitions")
+src/modules/grubcfg/main.py:309:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/grubcfg/main.py-310-    branding = libcalamares.globalstorage.value("branding")
+src/modules/grubcfg/main.py-311-    if branding is None:
+src/modules/grubcfg/main.py-312-        distributor = None
+--
+src/modules/initramfs/Tests.cpp-58-    QString path = r.path();
+src/modules/initramfs/Tests.cpp-59-    QVERIFY( path.isEmpty() );  // because no rootmountpoint is set
+src/modules/initramfs/Tests.cpp-60-
+src/modules/initramfs/Tests.cpp:61:    Calamares::JobQueue::instance()->globalStorage()->insert( "rootMountPoint", "/tmp" );
+src/modules/initramfs/Tests.cpp-62-
+src/modules/initramfs/Tests.cpp-63-    path = s->createTargetFile( short_confFile, QByteArray( contents ) ).path();
+src/modules/initramfs/Tests.cpp-64-    QCOMPARE( path, QString( confFile ) );
+--
+src/modules/dummypython/main.py-92-    libcalamares.utils.target_env_call("ls")
+src/modules/dummypython/main.py-93-
+src/modules/dummypython/main.py-94-    # Expect error message can't chroot to /tmp
+src/modules/dummypython/main.py:95:    libcalamares.globalstorage.insert("rootMountPoint", "/tmp")
+src/modules/dummypython/main.py-96-    libcalamares.utils.target_env_call(["ls"])
+src/modules/dummypython/main.py-97-
+src/modules/dummypython/main.py-98-    sleep(1)
+--
+src/modules/initramfscfg/main.py-78-    :return:
+src/modules/initramfscfg/main.py-79-    """
+src/modules/initramfscfg/main.py-80-    partitions = libcalamares.globalstorage.value("partitions")
+src/modules/initramfscfg/main.py:81:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/initramfscfg/main.py-82-
+src/modules/initramfscfg/main.py-83-    if not partitions:
+src/modules/initramfscfg/main.py-84-        libcalamares.utils.warning("partitions is empty, {!s}".format(partitions))
+--
+src/modules/localecfg/main.py-133-            'LC_IDENTIFICATION': 'en_US.UTF-8'
+src/modules/localecfg/main.py-134-        }
+src/modules/localecfg/main.py-135-
+src/modules/localecfg/main.py:136:    install_path = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/localecfg/main.py-137-
+src/modules/localecfg/main.py-138-    if install_path is None:
+src/modules/localecfg/main.py-139-        libcalamares.utils.warning("rootMountPoint is empty, {!s}".format(install_path))
+--
+src/modules/bootloader/main.py-513-    """
+src/modules/bootloader/main.py-514-    libcalamares.utils.debug("Bootloader: clr-boot-manager")
+src/modules/bootloader/main.py-515-
+src/modules/bootloader/main.py:516:    installation_root_path = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/bootloader/main.py-517-    kernel_config_path = os.path.join(installation_root_path, "etc", "kernel")
+src/modules/bootloader/main.py-518-    os.makedirs(kernel_config_path, exist_ok=True)
+src/modules/bootloader/main.py-519-    cmdline_path = os.path.join(kernel_config_path, "cmdline")
+--
+src/modules/bootloader/main.py-536-    :param efi_directory:
+src/modules/bootloader/main.py-537-    """
+src/modules/bootloader/main.py-538-    libcalamares.utils.debug("Bootloader: systemd-boot")
+src/modules/bootloader/main.py:539:    installation_root_path = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/bootloader/main.py-540-    install_efi_directory = installation_root_path + efi_directory
+src/modules/bootloader/main.py-541-    uuid = get_uuid()
+src/modules/bootloader/main.py-542-    loader_path = os.path.join(install_efi_directory,
+--
+src/modules/bootloader/main.py-696-    if fw_type == "efi" or install_hybrid_grub:
+src/modules/bootloader/main.py-697-        libcalamares.utils.debug("Bootloader: grub (efi)")
+src/modules/bootloader/main.py-698-        libcalamares.utils.debug(f"install_hybrid_grub: {install_hybrid_grub}")
+src/modules/bootloader/main.py:699:        installation_root_path = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/bootloader/main.py-700-        install_efi_directory = installation_root_path + efi_directory
+src/modules/bootloader/main.py-701-
+src/modules/bootloader/main.py-702-        if not os.path.isdir(install_efi_directory):
+--
+src/modules/bootloader/main.py-748-    """
+src/modules/bootloader/main.py-749-    efi_bootloader_id = efi_label(efi_directory)
+src/modules/bootloader/main.py-750-
+src/modules/bootloader/main.py:751:    installation_root_path = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/bootloader/main.py-752-    install_efi_directory = installation_root_path + efi_directory
+src/modules/bootloader/main.py-753-
+src/modules/bootloader/main.py-754-    if efi_word_size() == "64":
+--
+src/modules/bootloader/main.py-842-
+src/modules/bootloader/main.py-843-def install_refind(efi_directory):
+src/modules/bootloader/main.py-844-    try:
+src/modules/bootloader/main.py:845:        installation_root_path = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/bootloader/main.py-846-    except KeyError:
+src/modules/bootloader/main.py:847:        libcalamares.utils.warning('Global storage value "rootMountPoint" missing')
+src/modules/bootloader/main.py-848-
+src/modules/bootloader/main.py-849-    install_efi_directory = installation_root_path + efi_directory
+src/modules/bootloader/main.py-850-    uuid = get_uuid()
+--
+src/modules/luksopenswaphookcfg/Tests.cpp-108-    if ( gs )
+src/modules/luksopenswaphookcfg/Tests.cpp-109-    {
+src/modules/luksopenswaphookcfg/Tests.cpp-110-        // Working with a rootMountPoint set
+src/modules/luksopenswaphookcfg/Tests.cpp:111:        gs->insert( "rootMountPoint", tempRoot.path() );
+src/modules/luksopenswaphookcfg/Tests.cpp-112-    }
+src/modules/luksopenswaphookcfg/Tests.cpp-113-    return ss;
+src/modules/luksopenswaphookcfg/Tests.cpp-114-}
+--
+src/modules/luksopenswaphookcfg/LOSHJob.cpp-89-
+src/modules/luksopenswaphookcfg/LOSHJob.cpp-90-    Calamares::GlobalStorage* gs
+src/modules/luksopenswaphookcfg/LOSHJob.cpp-91-        = Calamares::JobQueue::instance() ? Calamares::JobQueue::instance()->globalStorage() : nullptr;
+src/modules/luksopenswaphookcfg/LOSHJob.cpp:92:    if ( !gs || gs->value( "rootMountPoint" ).toString().isEmpty() )
+src/modules/luksopenswaphookcfg/LOSHJob.cpp-93-    {
+src/modules/luksopenswaphookcfg/LOSHJob.cpp-94-        return Calamares::JobResult::internalError(
+src/modules/luksopenswaphookcfg/LOSHJob.cpp-95-            "LuksOpenSwapHook", tr( "No rootMountPoint is set." ), Calamares::JobResult::InvalidConfiguration );
+--
+src/modules/preservefiles/PreserveFiles.cpp-30-    QString root( "/" );
+src/modules/preservefiles/PreserveFiles.cpp-31-    QString user;
+src/modules/preservefiles/PreserveFiles.cpp-32-
+src/modules/preservefiles/PreserveFiles.cpp:33:    if ( gs && gs->contains( "rootMountPoint" ) )
+src/modules/preservefiles/PreserveFiles.cpp-34-    {
+src/modules/preservefiles/PreserveFiles.cpp:35:        root = gs->value( "rootMountPoint" ).toString();
+src/modules/preservefiles/PreserveFiles.cpp-36-    }
+src/modules/preservefiles/PreserveFiles.cpp-37-    if ( gs && gs->contains( "username" ) )
+src/modules/preservefiles/PreserveFiles.cpp-38-    {
+--
+src/modules/keyboard/SetKeyboardLayoutJob.cpp-345-    // Read the location of the destination's / in the host file system from
+src/modules/keyboard/SetKeyboardLayoutJob.cpp-346-    // the global settings
+src/modules/keyboard/SetKeyboardLayoutJob.cpp-347-    Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+src/modules/keyboard/SetKeyboardLayoutJob.cpp:348:    QDir destDir( gs->value( "rootMountPoint" ).toString() );
+src/modules/keyboard/SetKeyboardLayoutJob.cpp-349-
+src/modules/keyboard/SetKeyboardLayoutJob.cpp-350-    // Skip this if we are using locale1 and we are configuring the local system,
+src/modules/keyboard/SetKeyboardLayoutJob.cpp-351-    // since the service will have already updated these configs for us.
+--
+src/modules/oemid/IDJob.cpp-73-
+src/modules/oemid/IDJob.cpp-74-    QString targetDir = QStringLiteral( "/var/log/installer/" );
+src/modules/oemid/IDJob.cpp-75-    QString targetFile = QStringLiteral( "oem-id" );
+src/modules/oemid/IDJob.cpp:76:    QString rootMount = gs->value( "rootMountPoint" ).toString();
+src/modules/oemid/IDJob.cpp-77-
+src/modules/oemid/IDJob.cpp-78-    // Don't bother translating internal errors
+src/modules/oemid/IDJob.cpp-79-    if ( rootMount.isEmpty() && Calamares::Settings::instance()->doChroot() )
+--
+src/modules/fstab/main.py-374-    global_storage = libcalamares.globalstorage
+src/modules/fstab/main.py-375-    conf = libcalamares.job.configuration
+src/modules/fstab/main.py-376-    partitions = global_storage.value("partitions")
+src/modules/fstab/main.py:377:    root_mount_point = global_storage.value("rootMountPoint")
+src/modules/fstab/main.py-378-
+src/modules/fstab/main.py-379-    if not partitions:
+src/modules/fstab/main.py-380-        libcalamares.utils.warning("partitions is empty, {!s}"
+--
+src/modules/initcpiocfg/main.py-204-    :return:
+src/modules/initcpiocfg/main.py-205-    """
+src/modules/initcpiocfg/main.py-206-    partitions = libcalamares.globalstorage.value("partitions")
+src/modules/initcpiocfg/main.py:207:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/initcpiocfg/main.py-208-
+src/modules/initcpiocfg/main.py-209-    if not partitions:
+src/modules/initcpiocfg/main.py-210-        libcalamares.utils.warning(f"partitions are empty, {partitions}")
+--
+src/modules/shellprocess/Tests.cpp-181-    // .. fails for two reasons
+src/modules/shellprocess/Tests.cpp-182-    QVERIFY( !bool( CommandList( rootScript, true, 10s ).run() ) );
+src/modules/shellprocess/Tests.cpp-183-
+src/modules/shellprocess/Tests.cpp:184:    gs->insert( "rootMountPoint", "/tmp" );
+src/modules/shellprocess/Tests.cpp-185-    // Now that the root is set, two variants work .. still can't
+src/modules/shellprocess/Tests.cpp-186-    // chroot, unless the rootMountPoint contains a full system,
+src/modules/shellprocess/Tests.cpp-187-    // *and* we're allowed to chroot (ie. running tests as root).
+--
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp-42-rootMountPoint()
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp-43-{
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp-44-    Calamares::GlobalStorage* globalStorage = Calamares::JobQueue::instance()->globalStorage();
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp:45:    return globalStorage->value( QStringLiteral( "rootMountPoint" ) ).toString();
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp-46-}
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp-47-
+src/modules/dracutlukscfg/DracutLuksCfgJob.cpp-48-static QVariantList
+--
+src/modules/displaymanager/main.py-1010-            )
+src/modules/displaymanager/main.py-1011-
+src/modules/displaymanager/main.py-1012-    # Get instances that are actually installed
+src/modules/displaymanager/main.py:1013:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/displaymanager/main.py-1014-    dm_impl = []
+src/modules/displaymanager/main.py-1015-    dm_names = displaymanagers[:]
+src/modules/displaymanager/main.py-1016-    for dm in dm_names:
+--
+src/modules/machineid/Tests.cpp-192-    Calamares::GlobalStorage* gs
+src/modules/machineid/Tests.cpp-193-        = Calamares::JobQueue::instance() ? Calamares::JobQueue::instance()->globalStorage() : nullptr;
+src/modules/machineid/Tests.cpp-194-    QVERIFY( gs );
+src/modules/machineid/Tests.cpp:195:    gs->insert( "rootMountPoint", tempRoot.path() );
+src/modules/machineid/Tests.cpp-196-
+src/modules/machineid/Tests.cpp-197-    // Prepare part of the target filesystem
+src/modules/machineid/Tests.cpp-198-    {
+--
+src/modules/machineid/MachineIdJob.cpp-61-    QString root;
+src/modules/machineid/MachineIdJob.cpp-62-
+src/modules/machineid/MachineIdJob.cpp-63-    Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+src/modules/machineid/MachineIdJob.cpp:64:    if ( gs && gs->contains( "rootMountPoint" ) )
+src/modules/machineid/MachineIdJob.cpp-65-    {
+src/modules/machineid/MachineIdJob.cpp:66:        root = gs->value( "rootMountPoint" ).toString();
+src/modules/machineid/MachineIdJob.cpp-67-    }
+src/modules/machineid/MachineIdJob.cpp-68-    else
+src/modules/machineid/MachineIdJob.cpp-69-    {
+--
+src/modules/users/MiscJobs.cpp-86-    {
+src/modules/users/MiscJobs.cpp-87-        return QStringList();
+src/modules/users/MiscJobs.cpp-88-    }
+src/modules/users/MiscJobs.cpp:89:    QDir targetRoot( gs->value( "rootMountPoint" ).toString() );
+src/modules/users/MiscJobs.cpp-90-
+src/modules/users/MiscJobs.cpp-91-    QFileInfo groupsFi( targetRoot.absoluteFilePath( "etc/group" ) );
+src/modules/users/MiscJobs.cpp-92-    QFile groupsFile( groupsFi.absoluteFilePath() );
+--
+src/modules/users/CreateUserJob.cpp-115-
+src/modules/users/CreateUserJob.cpp-116-    {
+src/modules/users/CreateUserJob.cpp-117-        Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+src/modules/users/CreateUserJob.cpp:118:        destDir = QDir( gs->value( "rootMountPoint" ).toString() );
+src/modules/users/CreateUserJob.cpp-119-        reuseHome = gs->value( "reuseHome" ).toBool();
+src/modules/users/CreateUserJob.cpp-120-    }
+src/modules/users/CreateUserJob.cpp-121-
+--
+src/modules/users/SetPasswordJob.cpp-74-SetPasswordJob::exec()
+src/modules/users/SetPasswordJob.cpp-75-{
+src/modules/users/SetPasswordJob.cpp-76-    Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+src/modules/users/SetPasswordJob.cpp:77:    QDir destDir( gs->value( "rootMountPoint" ).toString() );
+src/modules/users/SetPasswordJob.cpp-78-    if ( !destDir.exists() )
+src/modules/users/SetPasswordJob.cpp-79-    {
+src/modules/users/SetPasswordJob.cpp-80-        return Calamares::JobResult::error( tr( "Bad destination system path." ),
+--
+src/modules/users/SetHostNameJob.cpp-115-{
+src/modules/users/SetHostNameJob.cpp-116-    Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+src/modules/users/SetHostNameJob.cpp-117-
+src/modules/users/SetHostNameJob.cpp:118:    if ( !gs || !gs->contains( "rootMountPoint" ) )
+src/modules/users/SetHostNameJob.cpp-119-    {
+src/modules/users/SetHostNameJob.cpp-120-        cError() << "No rootMountPoint in global storage";
+src/modules/users/SetHostNameJob.cpp-121-        return Calamares::JobResult::error( tr( "Internal Error" ) );
+src/modules/users/SetHostNameJob.cpp-122-    }
+src/modules/users/SetHostNameJob.cpp-123-
+src/modules/users/SetHostNameJob.cpp:124:    QString destDir = gs->value( "rootMountPoint" ).toString();
+src/modules/users/SetHostNameJob.cpp-125-    if ( !QDir( destDir ).exists() )
+src/modules/users/SetHostNameJob.cpp-126-    {
+src/modules/users/SetHostNameJob.cpp-127-        cError() << "rootMountPoint points to a dir which does not exist";
+--
+src/modules/users/TestSetHostNameJob.cpp-72-    Calamares::GlobalStorage* gs
+src/modules/users/TestSetHostNameJob.cpp-73-        = Calamares::JobQueue::instance() ? Calamares::JobQueue::instance()->globalStorage() : nullptr;
+src/modules/users/TestSetHostNameJob.cpp-74-    QVERIFY( gs );
+src/modules/users/TestSetHostNameJob.cpp:75:    gs->insert( "rootMountPoint", m_dir.path() );
+src/modules/users/TestSetHostNameJob.cpp-76-
+src/modules/users/TestSetHostNameJob.cpp-77-    if ( m_originalHostName.isEmpty() )
+src/modules/users/TestSetHostNameJob.cpp-78-    {
+--
+src/modules/users/TestGroupInformation.cpp-50-    {
+src/modules/users/TestGroupInformation.cpp-51-        (void)new Calamares::JobQueue();
+src/modules/users/TestGroupInformation.cpp-52-    }
+src/modules/users/TestGroupInformation.cpp:53:    Calamares::JobQueue::instance()->globalStorage()->insert( "rootMountPoint", "/" );
+src/modules/users/TestGroupInformation.cpp-54-}
+src/modules/users/TestGroupInformation.cpp-55-
+src/modules/users/TestGroupInformation.cpp-56-void
+--
+src/modules/users/TestGroupInformation.cpp-94-    QVERIFY( c.defaultGroups().contains( QStringLiteral( "adm" ) ) );
+src/modules/users/TestGroupInformation.cpp-95-    QVERIFY( c.defaultGroups().contains( QStringLiteral( "bar" ) ) );
+src/modules/users/TestGroupInformation.cpp-96-
+src/modules/users/TestGroupInformation.cpp:97:    Calamares::JobQueue::instance()->globalStorage()->insert( "rootMountPoint", "/" );
+src/modules/users/TestGroupInformation.cpp-98-
+src/modules/users/TestGroupInformation.cpp-99-    SetupGroupsJob j( &c );
+src/modules/users/TestGroupInformation.cpp-100-    QVERIFY( !j.exec() );  // running as regular user this should fail
+--
+src/modules/unpackfs/main.py-437-    """
+src/modules/unpackfs/main.py-438-    Unsquash filesystem.
+src/modules/unpackfs/main.py-439-    """
+src/modules/unpackfs/main.py:440:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/unpackfs/main.py-441-
+src/modules/unpackfs/main.py-442-    if not root_mount_point:
+src/modules/unpackfs/main.py-443-        libcalamares.utils.warning("No mount point for root partition")
+--
+src/modules/umount/UmountJob.cpp-137-
+src/modules/umount/UmountJob.cpp-138-    Calamares::GlobalStorage* gs
+src/modules/umount/UmountJob.cpp-139-        = Calamares::JobQueue::instance() ? Calamares::JobQueue::instance()->globalStorage() : nullptr;
+src/modules/umount/UmountJob.cpp:140:    if ( !gs || gs->value( "rootMountPoint" ).toString().isEmpty() )
+src/modules/umount/UmountJob.cpp-141-    {
+src/modules/umount/UmountJob.cpp-142-        return Calamares::JobResult::internalError(
+src/modules/umount/UmountJob.cpp-143-            "UMount", tr( "No rootMountPoint is set." ), Calamares::JobResult::InvalidConfiguration );
+--
+src/modules/umount/UmountJob.cpp-145-
+src/modules/umount/UmountJob.cpp-146-    // Do the unmounting of target-system filesystems
+src/modules/umount/UmountJob.cpp-147-    {
+src/modules/umount/UmountJob.cpp:148:        auto r = unmountTargetMounts( gs->value( "rootMountPoint" ).toString() );
+src/modules/umount/UmountJob.cpp-149-        if ( !r )
+src/modules/umount/UmountJob.cpp-150-        {
+src/modules/umount/UmountJob.cpp-151-            return r;
+--
+src/modules/mount/main.py-388-    if not mount_options_list:
+src/modules/mount/main.py-389-        libcalamares.utils.warning("No mount options defined, {!s} partitions, {!s} mountable".format(len(partitions), len(mountable_partitions)))
+src/modules/mount/main.py-390-
+src/modules/mount/main.py:391:    libcalamares.globalstorage.insert("rootMountPoint", root_mount_point)
+src/modules/mount/main.py-392-    libcalamares.globalstorage.insert("mountOptionsList", mount_options_list)
+src/modules/mount/main.py-393-
+src/modules/mount/main.py-394-    # Remember the extra mounts for the unpackfs module
+--
+src/modules/locale/SetTimezoneJob.cpp-54-    zoneinfoPath.append( QDir::separator() + m_zone );
+src/modules/locale/SetTimezoneJob.cpp-55-
+src/modules/locale/SetTimezoneJob.cpp-56-    Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+src/modules/locale/SetTimezoneJob.cpp:57:    QFileInfo zoneFile( gs->value( "rootMountPoint" ).toString() + zoneinfoPath );
+src/modules/locale/SetTimezoneJob.cpp-58-    if ( !zoneFile.exists() || !zoneFile.isReadable() )
+src/modules/locale/SetTimezoneJob.cpp-59-    {
+src/modules/locale/SetTimezoneJob.cpp-60-        return Calamares::JobResult::error( tr( "Cannot access selected timezone path.", "@error" ),
+--
+src/modules/locale/SetTimezoneJob.cpp-73-                                                .arg( "/etc/localtime" ) );
+src/modules/locale/SetTimezoneJob.cpp-74-    }
+src/modules/locale/SetTimezoneJob.cpp-75-
+src/modules/locale/SetTimezoneJob.cpp:76:    QFile timezoneFile( gs->value( "rootMountPoint" ).toString() + "/etc/timezone" );
+src/modules/locale/SetTimezoneJob.cpp-77-
+src/modules/locale/SetTimezoneJob.cpp-78-    if ( !timezoneFile.open( QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate ) )
+src/modules/locale/SetTimezoneJob.cpp-79-    {
+--
+src/modules/openrcdmcryptcfg/main.py-63-    :return:
+src/modules/openrcdmcryptcfg/main.py-64-    """
+src/modules/openrcdmcryptcfg/main.py-65-
+src/modules/openrcdmcryptcfg/main.py:66:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/openrcdmcryptcfg/main.py-67-    dmcrypt_conf_path = libcalamares.job.configuration["configFilePath"]
+src/modules/openrcdmcryptcfg/main.py-68-    partitions = libcalamares.globalstorage.value("partitions")
+src/modules/openrcdmcryptcfg/main.py-69-
+--
+src/modules/networkcfg/main.py-97-    """
+src/modules/networkcfg/main.py-98-    Setup network configuration
+src/modules/networkcfg/main.py-99-    """
+src/modules/networkcfg/main.py:100:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/networkcfg/main.py-101-    user = libcalamares.globalstorage.value("username")
+src/modules/networkcfg/main.py-102-    live_user = get_live_user()
+src/modules/networkcfg/main.py-103-
+--
+src/modules/networkcfg/main.py-134-
+src/modules/networkcfg/main.py-135-    # Also install netplan files
+src/modules/networkcfg/main.py-136-    source_netplan = "/etc/netplan"
+src/modules/networkcfg/main.py:137:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/networkcfg/main.py-138-    target_netplan = os.path.join(root_mount_point, source_netplan.lstrip('/'))
+src/modules/networkcfg/main.py-139-
+src/modules/networkcfg/main.py-140-    if os.path.exists(source_netplan) and os.path.exists(target_netplan):
+--
+src/modules/zfshostid/main.py-30-def run():
+src/modules/zfshostid/main.py-31-
+src/modules/zfshostid/main.py-32-    zfs = libcalamares.globalstorage.value("zfsDatasets")
+src/modules/zfshostid/main.py:33:    root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+src/modules/zfshostid/main.py-34-
+src/modules/zfshostid/main.py-35-    if zfs:
+src/modules/zfshostid/main.py-36-        hostid_source = '/etc/hostid'
+===== JOB CONFIGURATION =====
+src/modules/grubcfg/main.py-41-    default_dir = os.path.join(root_mount_point, "etc/default")
+src/modules/grubcfg/main.py-42-    default_config_file = "grub"
+src/modules/grubcfg/main.py-43-
+src/modules/grubcfg/main.py:44:    if "prefer_grub_d" in libcalamares.job.configuration and libcalamares.job.configuration["prefer_grub_d"]:
+src/modules/grubcfg/main.py-45-        possible_dir = os.path.join(root_mount_point, "etc/default/grub.d")
+src/modules/grubcfg/main.py-46-        if os.path.exists(possible_dir) and os.path.isdir(possible_dir):
+src/modules/grubcfg/main.py-47-            default_dir = possible_dir
+--
+src/modules/grubcfg/main.py-213-            if partition["fs"] == "zfs" and partition["mountPoint"] == "/":
+src/modules/grubcfg/main.py-214-                zfs_root_path = get_zfs_root()
+src/modules/grubcfg/main.py-215-
+src/modules/grubcfg/main.py:216:    kernel_params = libcalamares.job.configuration.get("kernel_params", ["quiet"])
+src/modules/grubcfg/main.py-217-
+src/modules/grubcfg/main.py-218-    # Currently, grub doesn't detect this properly so it must be set manually
+src/modules/grubcfg/main.py-219-    if zfs_root_path:
+--
+src/modules/grubcfg/main.py-233-    if swap_outer_mappername:
+src/modules/grubcfg/main.py-234-        kernel_params.append(f"resume=/dev/mapper/{swap_outer_mappername}")
+src/modules/grubcfg/main.py-235-
+src/modules/grubcfg/main.py:236:    overwrite = libcalamares.job.configuration.get("overwrite", False)
+src/modules/grubcfg/main.py-237-
+src/modules/grubcfg/main.py-238-    grub_config_items = {}
+src/modules/grubcfg/main.py-239-    # read the lines we need from the existing config
+--
+src/modules/grubcfg/main.py-257-                    if not param_exists and existing_param_name not in ["quiet", "resume", "splash"]:
+src/modules/grubcfg/main.py-258-                        kernel_params.append(existing_param)
+src/modules/grubcfg/main.py-259-
+src/modules/grubcfg/main.py:260:            elif line.startswith("GRUB_DISTRIBUTOR") and libcalamares.job.configuration.get("keep_distributor", False):
+src/modules/grubcfg/main.py-261-                distributor_parts = line.split("=")
+src/modules/grubcfg/main.py-262-                if len(distributor_parts) > 1:
+src/modules/grubcfg/main.py-263-                    distributor = distributor_parts[1].strip("'\"")
+--
+src/modules/grubcfg/main.py-266-            if no_save_default and line.strip().startswith("GRUB_SAVEDEFAULT"):
+src/modules/grubcfg/main.py-267-                grub_config_items["GRUB_SAVEDEFAULT"] = "false"
+src/modules/grubcfg/main.py-268-
+src/modules/grubcfg/main.py:269:    always_use_defaults = libcalamares.job.configuration.get("always_use_defaults", False)
+src/modules/grubcfg/main.py-270-
+src/modules/grubcfg/main.py-271-    # If applicable add the items from defaults to the dict containing the grub config to wirte/modify
+src/modules/grubcfg/main.py-272-    if always_use_defaults or overwrite or not os.path.exists(default_grub):
+src/modules/grubcfg/main.py:273:        if "defaults" in libcalamares.job.configuration:
+src/modules/grubcfg/main.py:274:            for key, value in libcalamares.job.configuration["defaults"].items():
+src/modules/grubcfg/main.py-275-                if isinstance(value, bool):
+src/modules/grubcfg/main.py-276-                    if value:
+src/modules/grubcfg/main.py-277-                        escaped_value = "true"
+--
+src/modules/grubcfg/main.py-288-    if cryptdevice_params and not unencrypted_separate_boot:
+src/modules/grubcfg/main.py-289-        grub_config_items["GRUB_ENABLE_CRYPTODISK"] = "y"
+src/modules/grubcfg/main.py-290-
+src/modules/grubcfg/main.py:291:    if overwrite or not os.path.exists(default_grub) or libcalamares.job.configuration.get("prefer_grub_d", False):
+src/modules/grubcfg/main.py-292-        with open(default_grub, 'w') as grub_file:
+src/modules/grubcfg/main.py-293-            for key, value in grub_config_items.items():
+src/modules/grubcfg/main.py-294-                grub_file.write(f"{key}={value}\n")
+--
+src/modules/unpackfsc/unpackfsc.conf-31-# Configuration:
+src/modules/unpackfsc/unpackfsc.conf-32-#
+src/modules/unpackfsc/unpackfsc.conf-33-#   from globalstorage: rootMountPoint
+src/modules/unpackfsc/unpackfsc.conf:34:#   from job configuration: the item to unpack
+src/modules/unpackfsc/unpackfsc.conf-35-#
+src/modules/unpackfsc/unpackfsc.conf-36-
+src/modules/unpackfsc/unpackfsc.conf-37----
+--
+src/modules/dummypython/main.py-51-    os.system("/bin/sh -c \"touch ~/calamares-dummypython\"")
+src/modules/dummypython/main.py-52-
+src/modules/dummypython/main.py-53-    libcalamares.utils.debug("*** JOB CONFIGURATION ***")
+src/modules/dummypython/main.py:54:    for k, v in libcalamares.job.configuration.items():
+src/modules/dummypython/main.py-55-        libcalamares.utils.debug(f"    {k}={v}")
+src/modules/dummypython/main.py-56-
+src/modules/dummypython/main.py-57-    libcalamares.utils.debug("*** GLOBAL STORAGE ***")
+--
+src/modules/dummypython/main.py-102-        libcalamares.job.setprogress(i / million)
+src/modules/dummypython/main.py-103-
+src/modules/dummypython/main.py-104-    try:
+src/modules/dummypython/main.py:105:        configlist = list(libcalamares.job.configuration["a_list"])
+src/modules/dummypython/main.py-106-    except KeyError:
+src/modules/dummypython/main.py-107-        configlist = ["no list"]
+src/modules/dummypython/main.py-108-
+--
+src/modules/packages/packages.conf-96-# or remove drivers not needed on the installed system.
+src/modules/packages/packages.conf-97-# Such a job would populate a list of dictionaries in the global
+src/modules/packages/packages.conf-98-# storage called "packageOperations" and that list is processed
+src/modules/packages/packages.conf:99:# after the static list in the job configuration (i.e. the list
+src/modules/packages/packages.conf-100-# that is in this configuration file).
+src/modules/packages/packages.conf-101-#
+src/modules/packages/packages.conf-102-# Allowed package operations are:
+--
+src/modules/packages/main.py-441-        self.in_package_changes = False
+src/modules/packages/main.py-442-        self.line_cb = line_cb
+src/modules/packages/main.py-443-
+src/modules/packages/main.py:444:        pacman = libcalamares.job.configuration.get("pacman", None)
+src/modules/packages/main.py-445-        if pacman is None:
+src/modules/packages/main.py-446-            pacman = dict()
+src/modules/packages/main.py-447-        if type(pacman) is not dict:
+--
+src/modules/packages/main.py-750-    """
+src/modules/packages/main.py-751-    global mode_packages, total_packages, completed_packages, group_packages
+src/modules/packages/main.py-752-
+src/modules/packages/main.py:753:    backend = libcalamares.job.configuration.get("backend")
+src/modules/packages/main.py-754-
+src/modules/packages/main.py-755-    for identifier, impl in backend_managers:
+src/modules/packages/main.py-756-        if identifier == backend:
+===== HOST PROCESS API =====
+
+The use of the `os.system()` function and *subprocess* modules is
+discouraged. Using these makes the caller responsible for handling
+any chroot or other target-versus-host-system manipulation, and in
+Calamares 3.3 may require additional privilege escalation handling.
+
+The primary functions for running a command from Python are:
+- `target_env_process_output(command, callback, stdin, timeout)`
+- `host_env_process_output(command, callback, stdin, timeout)`
+They run the given *command* (which must be a list of strings, like
+`sys.argv` or what would be passed to a *subprocess* module call)
+either in the target system (within the chroot) or in the host system.
+Except for *command*, the arguments are optional.
+
+A very simple example is running `ls` from a Python module (with `libcalamares.utils.` qualification omitted):
+```
+target_env_process_output(["ls"])
+```
+
+The functions return 0. If the exit code of *command* is not 0, an exception
+is raised instead of returning 0. The exception is `subprocess.CalledProcessError`
+(as if the *subprocess* module had been used), and the `returncode` member
+of the exception object can be used to determine the exit code.
+
+Parameter *stdin* may be a string which is fed to the command as standard input.
+The *timeout* is in seconds, with 0 (or a negative number) treated as no-timeout.
+
+Parameter *callback* is special:
+- If it is `None`, no special handling of the command's output is done.
+  The output will be logged, though (if there is any).
+- If it is a list, then the output of the command will be appended to the list,
+  one line at a time. Lines will still contain the trailing newline character
+  (if there is one; output may end without a newline).
+  Use this approach to process the command output after it has completed.
+- Anything else is assumed to be a callable function that takes one parameter.
+  The function is called once for each line of output produced by the command.
+  The line of output still contains the trailing newline character (if there is one).
+  Use this approach to process the command output while it is running.
+
+Here are three examples of running `ls` with different callbacks:
+```
+# No processing at all, output is logged
+target_env_process_output(["ls"])
+target_env_process_output(["ls"], None)
+
+# Appends to the list
+ls_output = []
+target_env_process_output(["ls"], ls_output)
+
+# Calls the function for each line, which then calls debug()
+def handle_output(s):
+    debug(f"ls said {s}")
+target_env_process_output(["ls"], handle_output)
+```
+
+The API functions for running commands set the environment
+LC_ALL and LANG to "C" for the called command.
+
+
+### Running Commands in Python (Deprecated Functions)
