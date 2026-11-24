@@ -1,0 +1,307 @@
+===== HOST ENV PROCESS OUTPUT =====
+src/modules/fstab/main.py-343-        # btrfs swapfiles must reside on a subvolume that is not snapshotted to prevent file system corruption
+src/modules/fstab/main.py-344-        swapfile_path = os.path.join(root_mount_point, "swap/swapfile")
+src/modules/fstab/main.py-345-        with open(swapfile_path, "wb") as f:
+src/modules/fstab/main.py-346-            pass
+src/modules/fstab/main.py:347:        libcalamares.utils.host_env_process_output(["chattr", "+C", "+m", swapfile_path])  # No Copy-on-Write, no compression
+src/modules/fstab/main.py-348-    else:
+src/modules/fstab/main.py-349-        swapfile_path = os.path.join(root_mount_point, "swapfile")
+src/modules/fstab/main.py-350-        with open(swapfile_path, "wb") as f:
+src/modules/fstab/main.py-351-            pass
+--
+src/modules/fstab/main.py-361-                break
+src/modules/fstab/main.py-362-            libcalamares.job.setprogress(0.2 + 0.3 * ( total / desired_size ) )
+src/modules/fstab/main.py-363-            total += chunk
+src/modules/fstab/main.py-364-    os.chmod(swapfile_path, 0o600)
+src/modules/fstab/main.py:365:    libcalamares.utils.host_env_process_output(["mkswap", swapfile_path])
+src/modules/fstab/main.py-366-    libcalamares.job.setprogress(0.5)
+src/modules/fstab/main.py-367-
+src/modules/fstab/main.py-368-
+src/modules/fstab/main.py-369-def run():
+--
+src/modules/unpackfs/main.py-87-        def cb_count(s):
+src/modules/unpackfs/main.py-88-            counter.count += 1
+src/modules/unpackfs/main.py-89-
+src/modules/unpackfs/main.py-90-        if self.sourcefs == "squashfs":
+src/modules/unpackfs/main.py:91:            libcalamares.utils.host_env_process_output(["unsquashfs", "-l", self.source], cb_count)
+src/modules/unpackfs/main.py-92-
+src/modules/unpackfs/main.py-93-        elif self.sourcefs == "ext4":
+src/modules/unpackfs/main.py:94:            libcalamares.utils.host_env_process_output(["find", self.mountPoint, "-type", "f"], cb_count)
+src/modules/unpackfs/main.py-95-
+src/modules/unpackfs/main.py-96-        elif self.is_file():
+src/modules/unpackfs/main.py-97-            # Hasn't been mounted, copy directly; find handles both
+src/modules/unpackfs/main.py-98-            # files and directories.
+src/modules/unpackfs/main.py:99:            libcalamares.utils.host_env_process_output(["find", self.source, "-type", "f"], cb_count)
+src/modules/unpackfs/main.py-100-
+src/modules/unpackfs/main.py-101-        self.total = counter.count
+src/modules/unpackfs/main.py-102-        return self.total
+src/modules/unpackfs/main.py-103-
+--
+src/modules/unpackfs/main.py-229-                counter.last_total_reported = num_files_total_local
+src/modules/unpackfs/main.py-230-                progress_cb(num_files_copied, num_files_total_local)
+src/modules/unpackfs/main.py-231-
+src/modules/unpackfs/main.py-232-    try:
+src/modules/unpackfs/main.py:233:        returncode = libcalamares.utils.host_env_process_output(args, output_cb)
+src/modules/unpackfs/main.py-234-    except subprocess.CalledProcessError as e:
+src/modules/unpackfs/main.py-235-        returncode = e.returncode
+src/modules/unpackfs/main.py-236-
+src/modules/unpackfs/main.py-237-    progress_cb(counter.last_num_files_copied, counter.last_total_reported)  # Push towards 100%
+--
+src/modules/mount/main.py-177-            ds_name = zfs_pool["dsName"]
+src/modules/mount/main.py-178-
+src/modules/mount/main.py-179-    # import the zpool
+src/modules/mount/main.py-180-    try:
+src/modules/mount/main.py:181:        libcalamares.utils.host_env_process_output(["zpool", "import", "-N", "-R", root_mount_point, pool_name], None)
+src/modules/mount/main.py-182-    except subprocess.CalledProcessError:
+src/modules/mount/main.py-183-        raise ZfsException(_("Failed to import zpool"))
+src/modules/mount/main.py-184-
+src/modules/mount/main.py-185-    # Get the encrpytion information from global storage
+--
+src/modules/mount/main.py-193-
+src/modules/mount/main.py-194-    if encrypt is True:
+src/modules/mount/main.py-195-        # The zpool is encrypted, we need to unlock it
+src/modules/mount/main.py-196-        try:
+src/modules/mount/main.py:197:            libcalamares.utils.host_env_process_output(["zfs", "load-key", pool_name], None, passphrase)
+src/modules/mount/main.py-198-        except subprocess.CalledProcessError:
+src/modules/mount/main.py-199-            raise ZfsException(_("Failed to unlock zpool"))
+src/modules/mount/main.py-200-
+src/modules/mount/main.py-201-    if partition["mountPoint"] == '/':
+--
+src/modules/mount/main.py-209-        zfs.sort(key=lambda x: x["mountpoint"])
+src/modules/mount/main.py-210-        for dataset in zfs:
+src/modules/mount/main.py-211-            try:
+src/modules/mount/main.py-212-                if dataset["canMount"] == "noauto" or dataset["canMount"] is True:
+src/modules/mount/main.py:213:                    libcalamares.utils.host_env_process_output(["zfs", "mount",
+src/modules/mount/main.py-214-                                                                dataset["zpool"] + '/' + dataset["dsName"]])
+src/modules/mount/main.py-215-            except subprocess.CalledProcessError:
+src/modules/mount/main.py-216-                raise ZfsException(_("Failed to set zfs mountpoint"))
+src/modules/mount/main.py-217-    else:
+src/modules/mount/main.py-218-        try:
+src/modules/mount/main.py:219:            libcalamares.utils.host_env_process_output(["zfs", "mount", pool_name + '/' + ds_name])
+src/modules/mount/main.py-220-        except subprocess.CalledProcessError:
+src/modules/mount/main.py-221-            raise ZfsException(_("Failed to set zfs mountpoint"))
+src/modules/mount/main.py-222-
+src/modules/mount/main.py-223-
+--
+src/modules/mount/main.py-325-
+src/modules/mount/main.py-326-def enable_swap_partition(devices):
+src/modules/mount/main.py-327-    try:
+src/modules/mount/main.py-328-        for d in devices:
+src/modules/mount/main.py:329:            libcalamares.utils.host_env_process_output(["swapon", d])
+src/modules/mount/main.py-330-    except subprocess.CalledProcessError:
+src/modules/mount/main.py-331-        libcalamares.utils.warning(f"Failed to enable swap for devices: {devices}")
+src/modules/mount/main.py-332-
+src/modules/mount/main.py-333-
+--
+src/modules/README.md-434-Calamares 3.3 may require additional privilege escalation handling.
+src/modules/README.md-435-
+src/modules/README.md-436-The primary functions for running a command from Python are:
+src/modules/README.md-437-- `target_env_process_output(command, callback, stdin, timeout)`
+src/modules/README.md:438:- `host_env_process_output(command, callback, stdin, timeout)`
+src/modules/README.md-439-They run the given *command* (which must be a list of strings, like
+src/modules/README.md-440-`sys.argv` or what would be passed to a *subprocess* module call)
+src/modules/README.md-441-either in the target system (within the chroot) or in the host system.
+src/modules/README.md-442-Except for *command*, the arguments are optional.
+===== TARGET ENV PROCESS OUTPUT =====
+src/modules/packages/main.py-18-from string import Template
+src/modules/packages/main.py-19-import subprocess
+src/modules/packages/main.py-20-
+src/modules/packages/main.py-21-import libcalamares
+src/modules/packages/main.py:22:from libcalamares.utils import check_target_env_call, target_env_call, target_env_process_output
+src/modules/packages/main.py-23-from libcalamares.utils import gettext_path, gettext_languages
+src/modules/packages/main.py-24-
+src/modules/packages/main.py-25-import gettext
+src/modules/packages/main.py-26-_translation = gettext.translation("calamares-python",
+--
+src/modules/packages/main.py-251-        for pkg in pkgs:
+src/modules/packages/main.py-252-            check_target_env_call(["apk", "del", pkg])
+src/modules/packages/main.py-253-
+src/modules/packages/main.py-254-    def update_db(self):
+src/modules/packages/main.py:255:        target_env_process_output(["apk", "update"])
+src/modules/packages/main.py-256-
+src/modules/packages/main.py-257-    def update_system(self):
+src/modules/packages/main.py-258-        check_target_env_call(["apk", "upgrade", "--available"])
+src/modules/packages/main.py-259-
+--
+src/modules/packages/main.py-270-        check_target_env_call(["apt-get", "--purge", "-q", "-y",
+src/modules/packages/main.py-271-                               "autoremove"])
+src/modules/packages/main.py-272-
+src/modules/packages/main.py-273-    def update_db(self):
+src/modules/packages/main.py:274:        target_env_process_output(["apt-get", "update"])
+src/modules/packages/main.py-275-
+src/modules/packages/main.py-276-    def update_system(self):
+src/modules/packages/main.py-277-        # Doesn't need to update the system explicitly
+src/modules/packages/main.py-278-        pass
+--
+src/modules/packages/main.py-359-    def remove(self, pkgs):
+src/modules/packages/main.py-360-        check_target_env_call(["equo", "rm"] + pkgs)
+src/modules/packages/main.py-361-
+src/modules/packages/main.py-362-    def update_db(self):
+src/modules/packages/main.py:363:        target_env_process_output(["equo", "update"])
+src/modules/packages/main.py-364-
+src/modules/packages/main.py-365-    def update_system(self):
+src/modules/packages/main.py-366-        # Doesn't need to update the system explicitly
+src/modules/packages/main.py-367-        pass
+--
+src/modules/packages/main.py-410-        for pkg in pkgs:
+src/modules/packages/main.py-411-            check_target_env_call(["pkcon", "-py", "remove", pkg])
+src/modules/packages/main.py-412-
+src/modules/packages/main.py-413-    def update_db(self):
+src/modules/packages/main.py:414:        target_env_process_output(["pkcon", "refresh"])
+src/modules/packages/main.py-415-
+src/modules/packages/main.py-416-    def update_system(self):
+src/modules/packages/main.py-417-        check_target_env_call(["pkcon", "-py", "update"])
+src/modules/packages/main.py-418-
+--
+src/modules/packages/main.py-468-        while pacman_count <= self.pacman_num_retries:
+src/modules/packages/main.py-469-            pacman_count += 1
+src/modules/packages/main.py-470-            try:
+src/modules/packages/main.py-471-                if False: # callback:
+src/modules/packages/main.py:472:                    libcalamares.utils.target_env_process_output(command, self.line_cb)
+src/modules/packages/main.py-473-                else:
+src/modules/packages/main.py:474:                    libcalamares.utils.target_env_process_output(command)
+src/modules/packages/main.py-475-
+src/modules/packages/main.py-476-                return
+src/modules/packages/main.py-477-            except subprocess.CalledProcessError:
+src/modules/packages/main.py-478-                if pacman_count <= self.pacman_num_retries:
+--
+src/modules/packages/main.py-537-        check_target_env_call([self.backend, "remove", "--no-confirm"] + pkgs)
+src/modules/packages/main.py-538-
+src/modules/packages/main.py-539-    def update_db(self):
+src/modules/packages/main.py-540-        self.del_db_lock()
+src/modules/packages/main.py:541:        target_env_process_output([self.backend, "update", "--no-confirm"])
+src/modules/packages/main.py-542-
+src/modules/packages/main.py-543-    def update_system(self):
+src/modules/packages/main.py-544-        self.del_db_lock()
+src/modules/packages/main.py-545-        check_target_env_call([self.backend, "upgrade", "--no-confirm"])
+--
+src/modules/packages/main.py-554-    def remove(self, pkgs):
+src/modules/packages/main.py-555-        check_target_env_call(["pisi", "remove", "-y"] + pkgs)
+src/modules/packages/main.py-556-
+src/modules/packages/main.py-557-    def update_db(self):
+src/modules/packages/main.py:558:        target_env_process_output(["pisi", "update-repo"])
+src/modules/packages/main.py-559-
+src/modules/packages/main.py-560-    def update_system(self):
+src/modules/packages/main.py-561-        # Doesn't need to update the system explicitly
+src/modules/packages/main.py-562-        pass
+--
+src/modules/packages/main.py-572-        check_target_env_call(["emerge", "-C"] + pkgs)
+src/modules/packages/main.py-573-        check_target_env_call(["emerge", "--depclean", "-q"])
+src/modules/packages/main.py-574-
+src/modules/packages/main.py-575-    def update_db(self):
+src/modules/packages/main.py:576:        target_env_process_output(["emerge", "--sync"])
+src/modules/packages/main.py-577-
+src/modules/packages/main.py-578-    def update_system(self):
+src/modules/packages/main.py-579-        # Doesn't need to update the system explicitly
+src/modules/packages/main.py-580-        pass
+--
+src/modules/packages/main.py-586-    def line_cb(self, line):
+src/modules/packages/main.py-587-        libcalamares.utils.debug(line)
+src/modules/packages/main.py-588-
+src/modules/packages/main.py-589-    def run_xbps(self, command):
+src/modules/packages/main.py:590:        libcalamares.utils.target_env_process_output(command, self.line_cb);
+src/modules/packages/main.py-591-
+src/modules/packages/main.py-592-    def install(self, pkgs, from_local=False):
+src/modules/packages/main.py-593-        self.run_xbps(["xbps-install", "-Sy"] + pkgs)
+src/modules/packages/main.py-594-
+--
+src/modules/packages/main.py-633-        check_target_env_call(["zypper", "--non-interactive",
+src/modules/packages/main.py-634-                               "remove"] + pkgs)
+src/modules/packages/main.py-635-
+src/modules/packages/main.py-636-    def update_db(self):
+src/modules/packages/main.py:637:        target_env_process_output(["zypper", "--non-interactive", "update"])
+src/modules/packages/main.py-638-
+src/modules/packages/main.py-639-    def update_system(self):
+src/modules/packages/main.py-640-        # Doesn't need to update the system explicitly
+src/modules/packages/main.py-641-        pass
+--
+src/modules/bootloader/main.py-234-    machine_dir = os.path.join(installation_root_path + efi_dir, machine_id)
+src/modules/bootloader/main.py-235-    os.makedirs(machine_dir, exist_ok=True)
+src/modules/bootloader/main.py-236-
+src/modules/bootloader/main.py-237-    # Call kernel-install for each kernel
+src/modules/bootloader/main.py:238:    libcalamares.utils.target_env_process_output(["kernel-install",
+src/modules/bootloader/main.py-239-                                                  "add",
+src/modules/bootloader/main.py-240-                                                  kernel_version,
+src/modules/bootloader/main.py-241-                                                  os.path.join("/", kernel)])
+src/modules/bootloader/main.py-242-
+--
+src/modules/dracut/main.py-14-#
+src/modules/dracut/main.py-15-import subprocess
+src/modules/dracut/main.py-16-
+src/modules/dracut/main.py-17-import libcalamares
+src/modules/dracut/main.py:18:from libcalamares.utils import target_env_process_output
+src/modules/dracut/main.py-19-
+src/modules/dracut/main.py-20-
+src/modules/dracut/main.py-21-import gettext
+src/modules/dracut/main.py-22-_ = gettext.translation("calamares-python",
+--
+src/modules/dracut/main.py-42-    if initramfs_name:
+src/modules/dracut/main.py-43-        dracut_options.append(initramfs_name)
+src/modules/dracut/main.py-44-
+src/modules/dracut/main.py-45-    try:
+src/modules/dracut/main.py:46:        target_env_process_output(['dracut'] + dracut_options)
+src/modules/dracut/main.py-47-    except subprocess.CalledProcessError as cpe:
+src/modules/dracut/main.py-48-        libcalamares.utils.warning(f"Dracut failed with output: {cpe.output}")
+src/modules/dracut/main.py-49-        return cpe.returncode
+src/modules/dracut/main.py-50-
+--
+src/modules/README.md-433-any chroot or other target-versus-host-system manipulation, and in
+src/modules/README.md-434-Calamares 3.3 may require additional privilege escalation handling.
+src/modules/README.md-435-
+src/modules/README.md-436-The primary functions for running a command from Python are:
+src/modules/README.md:437:- `target_env_process_output(command, callback, stdin, timeout)`
+src/modules/README.md-438-- `host_env_process_output(command, callback, stdin, timeout)`
+src/modules/README.md-439-They run the given *command* (which must be a list of strings, like
+src/modules/README.md-440-`sys.argv` or what would be passed to a *subprocess* module call)
+src/modules/README.md-441-either in the target system (within the chroot) or in the host system.
+src/modules/README.md-442-Except for *command*, the arguments are optional.
+src/modules/README.md-443-
+src/modules/README.md-444-A very simple example is running `ls` from a Python module (with `libcalamares.utils.` qualification omitted):
+src/modules/README.md-445-```
+src/modules/README.md:446:target_env_process_output(["ls"])
+src/modules/README.md-447-```
+src/modules/README.md-448-
+src/modules/README.md-449-The functions return 0. If the exit code of *command* is not 0, an exception
+src/modules/README.md-450-is raised instead of returning 0. The exception is `subprocess.CalledProcessError`
+--
+src/modules/README.md-468-
+src/modules/README.md-469-Here are three examples of running `ls` with different callbacks:
+src/modules/README.md-470-```
+src/modules/README.md-471-# No processing at all, output is logged
+src/modules/README.md:472:target_env_process_output(["ls"])
+src/modules/README.md:473:target_env_process_output(["ls"], None)
+src/modules/README.md-474-
+src/modules/README.md-475-# Appends to the list
+src/modules/README.md-476-ls_output = []
+src/modules/README.md:477:target_env_process_output(["ls"], ls_output)
+src/modules/README.md-478-
+src/modules/README.md-479-# Calls the function for each line, which then calls debug()
+src/modules/README.md-480-def handle_output(s):
+src/modules/README.md-481-    debug(f"ls said {s}")
+src/modules/README.md:482:target_env_process_output(["ls"], handle_output)
+src/modules/README.md-483-```
+src/modules/README.md-484-
+src/modules/README.md-485-The API functions for running commands set the environment
+src/modules/README.md-486-LC_ALL and LANG to "C" for the called command.
+===== CALAMARES PROCESS ERROR HANDLING =====
+src/modules/grubcfg/main.py:53:        except Exception as error:
+src/modules/packages/main.py:200:            except subprocess.CalledProcessError:
+src/modules/packages/main.py:234:            except subprocess.CalledProcessError:
+src/modules/packages/main.py:477:            except subprocess.CalledProcessError:
+src/modules/packages/main.py:771:        except subprocess.CalledProcessError as e:
+src/modules/packages/main.py:787:        except subprocess.CalledProcessError as e:
+src/modules/packages/main.py:815:        except subprocess.CalledProcessError as e:
+src/modules/bootloader/main.py:447:    except Exception:
+src/modules/bootloader/main.py:957:    except subprocess.CalledProcessError as e:
+src/modules/dracut/main.py:47:    except subprocess.CalledProcessError as cpe:
+src/modules/unpackfs/main.py:135:            raise subprocess.CalledProcessError(r, "mount")
+src/modules/unpackfs/main.py:234:    except subprocess.CalledProcessError as e:
+src/modules/mount/main.py:182:    except subprocess.CalledProcessError:
+src/modules/mount/main.py:198:        except subprocess.CalledProcessError:
+src/modules/mount/main.py:215:            except subprocess.CalledProcessError:
+src/modules/mount/main.py:220:        except subprocess.CalledProcessError:
+src/modules/mount/main.py:330:    except subprocess.CalledProcessError:
+src/modules/README.md:450:is raised instead of returning 0. The exception is `subprocess.CalledProcessError`
+src/modules/networkcfg/main.py:175:        except Exception as err:
+src/modules/networkcfg/main.py:182:        except Exception as err:
+src/modules/zfshostid/main.py:41:        except Exception as e:
