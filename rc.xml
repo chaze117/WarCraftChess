@@ -1,0 +1,235 @@
+2-	<desktops number="4" />
+3-	<keyboard>
+4-		<keybind bridge="plugins.media-keys/decrease-text-size" key="undefined">
+5:			<action name="" command="" />
+6-		</keybind>
+7-		<keybind bridge="plugins.media-keys/toggle-contrast" key="undefined">
+8:			<action name="" command="" />
+9-		</keybind>
+10-		<keybind bridge="plugins.media-keys/increase-text-size" key="undefined">
+11:			<action name="" command="" />
+12-		</keybind>
+13-		<keybind bridge="plugins.media-keys/on-screen-keyboard" key="undefined">
+14:			<action name="" command="" />
+15-		</keybind>
+16-		<keybind bridge="plugins.media-keys/screenreader" key="A-W-s">
+17:			<action name="" command="" />
+18-		</keybind>
+19-		<keybind bridge="plugins.media-keys/magnifier" key="A-W-8">
+20-			<action name="ToggleMagnify" />
+--
+26-			<action name="ZoomOut" />
+27-		</keybind>
+28-		<keybind bridge="plugins.media-keys/terminal" key="C-A-t">
+29:			<action name="Execute" command="xdg-terminal-exec" />
+30-		</keybind>
+31-		<keybind bridge="plugins.media-keys/home" key="XF86Explorer">
+32:			<action name="Execute" command="" />
+33-		</keybind>
+34-		<keybind bridge="plugins.media-keys/calculator" key="XF86Calculator">
+35:			<action name="Execute" command="mate-calc" />
+36-		</keybind>
+37-		<keybind bridge="plugins.media-keys/email" key="XF86Mail">
+38:			<action name="Execute" command="xdg-email" />
+39-		</keybind>
+40-		<keybind bridge="plugins.media-keys/help" key="undefined">
+41:			<action name="" command="" />
+42-		</keybind>
+43-		<keybind bridge="plugins.media-keys/help" key="W-F1">
+44:			<action name="" command="" />
+45-		</keybind>
+46-		<keybind bridge="plugins.media-keys/www" key="XF86WWW">
+47:			<action name="" command="" />
+48-		</keybind>
+49-		<keybind bridge="plugins.media-keys/search" key="XF86Search">
+50:			<action name="" command="" />
+51-		</keybind>
+52-		<keybind bridge="plugins.media-keys/control-center" key="XF86Tools">
+53:			<action name="Execute" command="budgie-desktop-settings" />
+54-		</keybind>
+55-		<keybind bridge="wm.keybindings/show-desktop" key="W-d">
+56:			<action name="Execute" command="dbus-send --type=method_call --dest=org.budgie_desktop.Panel /org/budgie_desktop/Panel org.budgie_desktop.Panel.ToggleShowDesktop" />
+57-		</keybind>
+58-		<keybind bridge="wm.keybindings/move-to-monitor-down" key="W-S-Down">
+59:			<action name="" command="" />
+60-		</keybind>
+61-		<keybind bridge="wm.keybindings/move-to-monitor-left" key="W-S-Left">
+62:			<action name="" command="" />
+63-		</keybind>
+64-		<keybind bridge="wm.keybindings/move-to-monitor-right" key="W-S-Right">
+65:			<action name="" command="" />
+66-		</keybind>
+67-		<keybind bridge="wm.keybindings/move-to-monitor-up" key="W-S-Up">
+68:			<action name="" command="" />
+69-		</keybind>
+70-		<keybind bridge="wm.keybindings/move-to-workspace-left" key="W-S-Page_Up">
+71-			<action name="SendToDesktop" to="left" wrap="no" />
+--
+158-			<action name="NextWindow" />
+159-		</keybind>
+160-		<keybind bridge="wm.keybindings/switch-panels-backward" key="S-C-A-Tab">
+161:			<action name="" command="" />
+162-		</keybind>
+163-		<keybind bridge="wm.keybindings/switch-panels" key="C-A-Tab">
+164:			<action name="" command="" />
+165-		</keybind>
+166-		<keybind bridge="wm.keybindings/cycle-panels-backward" key="S-C-A-Escape">
+167:			<action name="" command="" />
+168-		</keybind>
+169-		<keybind bridge="wm.keybindings/cycle-panels" key="C-A-Escape">
+170:			<action name="" command="" />
+171-		</keybind>
+172-		<keybind bridge="wm.keybindings/switch-windows-backward" key="undefined">
+173:			<action name="" command="" />
+174-		</keybind>
+175-		<keybind bridge="wm.keybindings/switch-windows" key="undefined">
+176:			<action name="" command="" />
+177-		</keybind>
+178-		<keybind bridge="wm.keybindings/cycle-windows-backward" key="S-A-Escape">
+179-			<action name="PreviousWindow" />
+--
+182-			<action name="NextWindow" />
+183-		</keybind>
+184-		<keybind bridge="wm.keybindings/cycle-group-backward" key="S-A-F6">
+185:			<action name="" command="" />
+186-		</keybind>
+187-		<keybind bridge="wm.keybindings/cycle-group" key="A-F6">
+188:			<action name="" command="" />
+189-		</keybind>
+190-		<keybind bridge="wm.keybindings/switch-group-backward" key="S-W-Above_Tab">
+191:			<action name="" command="" />
+192-		</keybind>
+193-		<keybind bridge="wm.keybindings/switch-group-backward" key="S-A-Above_Tab">
+194:			<action name="" command="" />
+195-		</keybind>
+196-		<keybind bridge="wm.keybindings/switch-group" key="W-Above_Tab">
+197:			<action name="" command="" />
+198-		</keybind>
+199-		<keybind bridge="wm.keybindings/switch-group" key="A-Above_Tab">
+200:			<action name="" command="" />
+201-		</keybind>
+202-		<keybind bridge="gnome.mutter/overlay-key" key="Super_L" onRelease="yes">
+203:			<action name="Execute" command="dbus-send --type=method_call --dest=org.budgie_desktop.Panel /org/budgie_desktop/Panel org.budgie_desktop.Panel.ActivateAction int32:2" />
+204-		</keybind>
+205-		<keybind bridge="solus-project.budgie-wm/clear-notifications" key="W-c">
+206:			<action name="Execute" command="dbus-send --type=method_call --dest=org.budgie_desktop.Raven /org/budgie_desktop/Raven org.budgie_desktop.Raven.ClearNotifications" />
+207-		</keybind>
+208-		<keybind bridge="solus-project.budgie-wm/toggle-notifications" key="W-n">
+209:			<action name="Execute" command="dbus-send --type=method_call --dest=org.budgie_desktop.Raven /org/budgie_desktop/Raven org.budgie_desktop.Raven.ToggleNotificationsView" />
+210-		</keybind>
+211-		<keybind bridge="solus-project.budgie-wm/toggle-raven" key="W-a">
+212:			<action name="Execute" command="dbus-send --type=method_call --dest=org.budgie_desktop.Raven /org/budgie_desktop/Raven org.budgie_desktop.Raven.ToggleAppletView" />
+213-		</keybind>
+214-		<keybind bridge="solus-project.budgie-wm/take-region-screenshot" key="C-Print">
+215:			<action name="Execute" command="dbus-send --type=method_call --dest=org.buddiesofbudgie.BudgieScreenshotControl /org/buddiesofbudgie/ScreenshotControl org.buddiesofbudgie.BudgieScreenshotControl.StartAreaSelect" />
+216-		</keybind>
+217-		<keybind bridge="solus-project.budgie-wm/take-full-screenshot" key="Print">
+218:			<action name="Execute" command="dbus-send --type=method_call --dest=org.buddiesofbudgie.BudgieScreenshotControl /org/buddiesofbudgie/ScreenshotControl org.buddiesofbudgie.BudgieScreenshotControl.StartFullScreenshot" />
+219-		</keybind>
+220-		<keybind bridge="plugins.media-keys/eject" key="XF86Eject">
+221:			<action name="" command="" />
+222-		</keybind>
+223-		<keybind bridge="plugins.media-keys/media" key="XF86AudioMedia">
+224:			<action name="" command="" />
+225-		</keybind>
+226-		<keybind bridge="plugins.media-keys/mic-mute" key="XF86AudioMicMute">
+227:			<action name="Execute" command="wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle" />
+228-		</keybind>
+229-		<keybind bridge="plugins.media-keys/next" key="XF86AudioNext">
+230:			<action name="" command="" />
+231-		</keybind>
+232-		<keybind bridge="plugins.media-keys/next" key="C-XF86AudioNext">
+233:			<action name="" command="" />
+234-		</keybind>
+235-		<keybind bridge="plugins.media-keys/pause" key="XF86AudioPause">
+236:			<action name="" command="" />
+237-		</keybind>
+238-		<keybind bridge="plugins.media-keys/play" key="XF86AudioPlay">
+239:			<action name="" command="" />
+240-		</keybind>
+241-		<keybind bridge="plugins.media-keys/play" key="C-XF86AudioPlay">
+242:			<action name="" command="" />
+243-		</keybind>
+244-		<keybind bridge="plugins.media-keys/previous" key="XF86AudioPrev">
+245:			<action name="" command="" />
+246-		</keybind>
+247-		<keybind bridge="plugins.media-keys/previous" key="C-XF86AudioPrev">
+248:			<action name="" command="" />
+249-		</keybind>
+250-		<keybind bridge="plugins.media-keys/stop" key="XF86AudioStop">
+251:			<action name="" command="" />
+252-		</keybind>
+253-		<keybind bridge="plugins.media-keys/volume-down" key="XF86AudioLowerVolume">
+254:			<action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-" />
+255-		</keybind>
+256-		<keybind bridge="plugins.media-keys/volume-down" key="C-XF86AudioLowerVolume">
+257:			<action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-" />
+258-		</keybind>
+259-		<keybind bridge="plugins.media-keys/volume-mute" key="XF86AudioMute">
+260:			<action name="Execute" command="wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" />
+261-		</keybind>
+262-		<keybind bridge="plugins.media-keys/volume-up" key="XF86AudioRaiseVolume">
+263:			<action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+" />
+264-		</keybind>
+265-		<keybind bridge="plugins.media-keys/volume-up" key="C-XF86AudioRaiseVolume">
+266:			<action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+" />
+267-		</keybind>
+268-		<keybind bridge="plugins.media-keys/screensaver" key="W-l">
+269:			<action name="Execute" command="dbus-send --type=method_call --dest=org.buddiesofbudgie.BudgieScreenlock /org/buddiesofbudgie/Screenlock org.buddiesofbudgie.BudgieScreenlock.Lock" />
+270-		</keybind>
+271-		<keybind bridge="plugins.media-keys/logout" key="C-A-Delete">
+272:			<action name="Execute" command="budgie-session-quit" />
+273-		</keybind>
+274-		<keybind bridge="wm.keybindings/panel-run-dialog" key="A-F2">
+275:			<action name="Execute" command="budgie-run-dialog" />
+276-		</keybind>
+277-		<keybind bridge="wm.keybindings/switch-input-source" key="A-Shift_L">
+278:			<action name="" command="" />
+279-		</keybind>
+280-		<keybind bridge="wm.keybindings/switch-input-source" key="W-space">
+281:			<action name="" command="" />
+282-		</keybind>
+283-		<keybind bridge="wm.keybindings/switch-input-source" key="XF86Keyboard">
+284:			<action name="" command="" />
+285-		</keybind>
+286-		<keybind bridge="wm.keybindings/switch-input-source-backward" key="W-S-space">
+287:			<action name="" command="" />
+288-		</keybind>
+289-		<keybind bridge="wm.keybindings/switch-input-source-backward" key="S-XF86Keyboard">
+290:			<action name="" command="" />
+291-		</keybind>
+292-		<keybind bridge="wm.keybindings/close" key="A-F4">
+293-			<action name="Close" />
+--
+308-			<action name="Maximize" direction="left" />
+309-		</keybind>
+310-		<keybind bridge="wm.keybindings/begin-move" key="A-F7">
+311:			<action name="" command="" />
+312-		</keybind>
+313-		<keybind bridge="wm.keybindings/raise" key="undefined">
+314-			<action name="Raise" />
+315-		</keybind>
+316-		<keybind bridge="wm.keybindings/raise-or-lower" key="undefined">
+317:			<action name="" command="" />
+318-		</keybind>
+319-		<keybind bridge="wm.keybindings/begin-resize" key="A-F8">
+320-			<action name="Resize" />
+--
+332-			<action name="ToggleMaximize" direction="both" />
+333-		</keybind>
+334-		<keybind bridge="wm.keybindings/toggle-on-all-workspaces" key="undefined">
+335:			<action name="" command="" />
+336-		</keybind>
+337-		<keybind bridge="mutter.keybindings/toggle-tiled-left" key="W-Left">
+338-			<action name="ToggleSnapToEdge" direction="left" />
+--
+341-			<action name="ToggleSnapToEdge" direction="right" />
+342-		</keybind>
+343-		<keybind bridge="plugins.media-keys/screen-brightness-up" key="XF86MonBrightnessUp">
+344:			<action name="Execute" command="budgie-brightness-helper --up" />
+345-		</keybind>
+346-		<keybind bridge="plugins.media-keys/screen-brightness-down" key="XF86MonBrightnessDown">
+347:			<action name="Execute" command="budgie-brightness-helper --down" />
+348-		</keybind>
+349-	</keyboard>
+350-	<theme>
