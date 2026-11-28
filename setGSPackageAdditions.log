@@ -1,0 +1,397 @@
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-64-    }
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-65-    return false;
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-66-}
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-67-
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-68-bool
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp:69:Calamares::Packages::setGSPackageAdditions( Calamares::GlobalStorage* gs,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-70-                                            const Calamares::ModuleSystem::InstanceKey& module,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-71-                                            const QVariantList& installPackages,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-72-                                            const QVariantList& tryInstallPackages )
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-73-{
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-74-    return additions( gs, module.toString(), installPackages, tryInstallPackages );
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-75-}
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-76-
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-77-bool
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp:78:Calamares::Packages::setGSPackageAdditions( Calamares::GlobalStorage* gs,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-79-                                            const Calamares::ModuleSystem::InstanceKey& module,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-80-                                            const QStringList& installPackages )
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-81-{
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-82-    QVariantList l;
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-83-    for ( const auto& s : installPackages )
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-84-    {
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-85-        l << s;
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-86-    }
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-87-    return additions( gs, module.toString(), l, QVariantList() );
+src/calamares-3.4.2/src/libcalamares/packages/Globals.cpp-88-}
+--
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-50-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-51-    QVERIFY( !gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-52-    QCOMPARE( k.toString(), "this@that" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-53-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-54-    // Adding nothing at all does nothing
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:55:    QVERIFY( !Calamares::Packages::setGSPackageAdditions( &gs, k, QVariantList(), QVariantList() ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-56-    QVERIFY( !gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-57-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:58:    QVERIFY( !Calamares::Packages::setGSPackageAdditions( &gs, k, QStringList() ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-59-    QVERIFY( !gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-60-}
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-61-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-62-void
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-63-PackagesTests::testAdd_data()
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-64-{
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-65-    QTest::addColumn< QStringList >( "packages" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-66-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-67-    QTest::newRow( "one" ) << QStringList { QString( "vim" ) };
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-68-    QTest::newRow( "two" ) << QStringList { QString( "vim" ), QString( "emacs" ) };
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-69-    QTest::newRow( "one-again" ) << QStringList { QString( "nano" ) };
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-70-    QTest::newRow( "six" ) << QStringList { QString( "vim" ),  QString( "emacs" ), QString( "nano" ),
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-71-                                            QString( "kate" ), QString( "gedit" ), QString( "sublime" ) };
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-72-    // There is no "de-duplication" so this will insert "cim" twice
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-73-    QTest::newRow( "dups" ) << QStringList { QString( "cim" ), QString( "vim" ), QString( "cim" ) };
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-74-}
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-75-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-76-void
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-77-PackagesTests::testAdd()
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-78-{
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-79-    Calamares::GlobalStorage gs;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-80-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-81-    const QString extraEditor( "notepad++" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-82-    const QString topKey( "packageOperations" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-83-    Calamares::ModuleSystem::InstanceKey k( "this", "that" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-84-    Calamares::ModuleSystem::InstanceKey otherInstance( "this", "other" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-85-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-86-    QFETCH( QStringList, packages );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-87-    QVERIFY( !packages.contains( extraEditor ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-88-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-89-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-90-        QVERIFY( !gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:91:        QVERIFY( Calamares::Packages::setGSPackageAdditions( &gs, k, QVariant( packages ).toList(), QVariantList() ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-92-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-93-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-94-        QCOMPARE( actionList.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-95-        auto action = actionList[ 0 ].toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-96-        QVERIFY( action.contains( "install" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-97-        auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-98-        QCOMPARE( op.length(), packages.length() );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-99-        for ( const auto& s : std::as_const( packages ) )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-100-        {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-101-            QVERIFY( op.contains( s ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-102-        }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-103-        cDebug() << op;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-104-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-105-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:106:        QVERIFY( Calamares::Packages::setGSPackageAdditions( &gs, otherInstance, packages ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-107-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-108-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-109-        QCOMPARE( actionList.length(), 2 );  // One for each instance key!
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-110-        auto action = actionList[ 0 ].toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-111-        auto secondaction = actionList[ 1 ].toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-112-        auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-113-        auto secondop = secondaction[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-114-        QCOMPARE( op, secondop );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-115-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-116-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-117-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-118-        // Replace one and expect differences
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-119-        packages << extraEditor;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:120:        QVERIFY( Calamares::Packages::setGSPackageAdditions( &gs, otherInstance, packages ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-121-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-122-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-123-        QCOMPARE( actionList.length(), 2 );  // One for each instance key!
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-124-        for ( const auto& actionVariant : std::as_const( actionList ) )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-125-        {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-126-            auto action = actionVariant.toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-127-            QVERIFY( action.contains( "install" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-128-            QVERIFY( action.contains( "source" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-129-            if ( action[ "source" ].toString() == otherInstance.toString() )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-130-            {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-131-                auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-132-                QCOMPARE( op.length(), packages.length() );  // changed from original length, though
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-133-                for ( const auto& s : std::as_const( packages ) )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-134-                {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-135-                    QVERIFY( op.contains( s ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-136-                }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-137-            }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-138-            else
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-139-            {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-140-                // This is the "original" instance, so it's missing extraEditor
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-141-                auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-142-                QCOMPARE( op.length(), packages.length() - 1 );  // changed from original length
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-143-                QVERIFY( !op.contains( extraEditor ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-144-            }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-145-        }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-146-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-147-}
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-148-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-149-void
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-150-PackagesTests::testAddMixed()
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-151-{
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-152-    Calamares::GlobalStorage gs;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-153-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-154-    const QString extraEditor( "notepad++" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-155-    const QString topKey( "packageOperations" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-156-    Calamares::ModuleSystem::InstanceKey k( "this", "that" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-157-    Calamares::ModuleSystem::InstanceKey otherInstance( "this", "other" );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-158-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-159-    // Just one
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-160-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-161-        QVERIFY( !gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-162-        QVERIFY(
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:163:            Calamares::Packages::setGSPackageAdditions( &gs, k, QVariantList { QString( "vim" ) }, QVariantList() ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-164-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-165-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-166-        QCOMPARE( actionList.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-167-        auto action = actionList[ 0 ].toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-168-        QVERIFY( action.contains( "install" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-169-        auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-170-        QCOMPARE( op.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-171-        QCOMPARE( op[ 0 ], QString( "vim" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-172-        cDebug() << op;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-173-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-174-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-175-    // Replace with two packages
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-176-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:177:        QVERIFY( Calamares::Packages::setGSPackageAdditions(
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-178-            &gs, k, QVariantList { QString( "vim" ), QString( "emacs" ) }, QVariantList() ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-179-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-180-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-181-        QCOMPARE( actionList.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-182-        auto action = actionList[ 0 ].toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-183-        QVERIFY( action.contains( "install" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-184-        auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-185-        QCOMPARE( op.length(), 2 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-186-        QCOMPARE( action[ "source" ].toString(), k.toString() );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-187-        QVERIFY( op.contains( QString( "vim" ) ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-188-        QVERIFY( op.contains( QString( "emacs" ) ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-189-        cDebug() << op;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-190-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-191-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-192-    // Replace with one (different) package
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-193-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-194-        QVERIFY(
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:195:            Calamares::Packages::setGSPackageAdditions( &gs, k, QVariantList { QString( "nano" ) }, QVariantList() ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-196-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-197-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-198-        QCOMPARE( actionList.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-199-        auto action = actionList[ 0 ].toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-200-        QVERIFY( action.contains( "install" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-201-        auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-202-        QCOMPARE( op.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-203-        QCOMPARE( action[ "source" ].toString(), k.toString() );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-204-        QCOMPARE( op[ 0 ], QString( "nano" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-205-        cDebug() << op;
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-206-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-207-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-208-    // Now we have two sources
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-209-    {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp:210:        QVERIFY( Calamares::Packages::setGSPackageAdditions( &gs, otherInstance, QStringList( extraEditor ) ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-211-        QVERIFY( gs.contains( topKey ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-212-        auto actionList = gs.value( topKey ).toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-213-        QCOMPARE( actionList.length(), 2 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-214-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-215-        for ( const auto& actionVariant : std::as_const( actionList ) )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-216-        {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-217-            auto action = actionVariant.toMap();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-218-            QVERIFY( action.contains( "install" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-219-            QVERIFY( action.contains( "source" ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-220-            if ( action[ "source" ].toString() == otherInstance.toString() )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-221-            {
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-222-                auto op = action[ "install" ].toList();
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-223-                QCOMPARE( op.length(), 1 );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-224-                QVERIFY(
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-225-                    op.contains( action[ "source" ] == otherInstance.toString() ? extraEditor : QString( "nano" ) ) );
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-226-            }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-227-        }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-228-    }
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-229-}
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-230-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-231-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-232-QTEST_GUILESS_MAIN( PackagesTests )
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-233-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-234-#include "utils/moc-warnings.h"
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-235-
+src/calamares-3.4.2/src/libcalamares/packages/Tests.cpp-236-#include "Tests.moc"
+--
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-23- * This replaces previously-set install-packages lists for the
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-24- * given module by the two new lists.
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-25- *
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-26- * Returns @c true if anything was changed, @c false otherwise.
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-27- */
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h:28:DLLEXPORT bool setGSPackageAdditions( Calamares::GlobalStorage* gs,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-29-                                      const Calamares::ModuleSystem::InstanceKey& module,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-30-                                      const QVariantList& installPackages,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-31-                                      const QVariantList& tryInstallPackages );
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-32-/** @brief Sets the install-packages GS keys for the given module
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-33- *
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-34- * This replaces previously-set install-packages lists. Use this with
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-35- * plain lists of package names. It does not support try-install.
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-36- */
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h:37:DLLEXPORT bool setGSPackageAdditions( Calamares::GlobalStorage* gs,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-38-                                      const Calamares::ModuleSystem::InstanceKey& module,
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-39-                                      const QStringList& installPackages );
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-40-// void setGSPackageRemovals( const Calamares::ModuleSystem::InstanceKey& key, const QVariantList& removePackages );
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-41-}  // namespace Packages
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-42-}  // namespace Calamares
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-43-
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-44-
+src/calamares-3.4.2/src/libcalamares/packages/Globals.h-45-#endif
+--
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-144-    QStringList flatpakPackages = m_model->getFlatpakPackagesForNames( selected );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-145-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-146-    auto* gs = Calamares::JobQueue::instance()->globalStorage();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-147-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-148-    cDebug() << m_defaultId << "pacman packages to install" << packageNames;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix:149:    Calamares::Packages::setGSPackageAdditions( gs, m_defaultId, packageNames );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-150-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-151-    // Flatpak műveletek
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-152-    QVariantList flatpakOperations =
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-153-        gs->contains( "flatpakOperations" )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-154-            ? gs->value( "flatpakOperations" ).toList()
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-155-            : QVariantList();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-156-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-157-    // Korábbi választás törlése az adott instance-hoz.
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-158-    for ( int i = flatpakOperations.size() - 1; i >= 0; --i )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-159-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-160-        const QVariantMap op = flatpakOperations.at( i ).toMap();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-161-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-162-        if ( op.value( "source" ).toString() == m_defaultId.toString() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-163-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-164-            flatpakOperations.removeAt( i );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-165-        }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-166-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-167-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-168-    if ( !flatpakPackages.isEmpty() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-169-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-170-        QVariantMap op;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-171-        op.insert( "install", QVariant( flatpakPackages ) );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-172-        op.insert( "source", m_defaultId.toString() );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-173-        flatpakOperations.append( op );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-174-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-175-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-176-    gs->insert( "flatpakOperations", flatpakOperations );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-177-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-178-    cDebug() << m_defaultId << "Flatpak applications to install" << flatpakPackages;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-179-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-180-    else if ( m_method == PackageChooserMethod::NetAdd )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-181-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-182-        QVariantList netinstallDataList = m_model->getNetinstallDataForNames( selected );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-183-        if ( netinstallDataList.isEmpty() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-184-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-185-            cWarning() << "No netinstall information found for " << selected;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-186-        }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-187-        else
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-188-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp.before-qml-fix-189-            // If an earlier packagechooser instance added this data to global storage, combine them
+--
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-144-    QStringList flatpakPackages = m_model->getFlatpakPackagesForNames( selected );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-145-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-146-    auto* gs = Calamares::JobQueue::instance()->globalStorage();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-147-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-148-    cDebug() << m_defaultId << "pacman packages to install" << packageNames;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp:149:    Calamares::Packages::setGSPackageAdditions( gs, m_defaultId, packageNames );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-150-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-151-    // Flatpak műveletek
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-152-    QVariantList flatpakOperations =
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-153-        gs->contains( "flatpakOperations" )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-154-            ? gs->value( "flatpakOperations" ).toList()
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-155-            : QVariantList();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-156-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-157-    // Korábbi választás törlése az adott instance-hoz.
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-158-    for ( int i = flatpakOperations.size() - 1; i >= 0; --i )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-159-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-160-        const QVariantMap op = flatpakOperations.at( i ).toMap();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-161-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-162-        if ( op.value( "source" ).toString() == m_defaultId.toString() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-163-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-164-            flatpakOperations.removeAt( i );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-165-        }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-166-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-167-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-168-    if ( !flatpakPackages.isEmpty() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-169-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-170-        QVariantMap op;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-171-        op.insert( "install", QVariant( flatpakPackages ) );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-172-        op.insert( "source", m_defaultId.toString() );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-173-        flatpakOperations.append( op );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-174-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-175-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-176-    gs->insert( "flatpakOperations", flatpakOperations );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-177-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-178-    cDebug() << m_defaultId << "Flatpak applications to install" << flatpakPackages;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-179-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-180-    else if ( m_method == PackageChooserMethod::NetAdd )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-181-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-182-        QVariantList netinstallDataList = m_model->getNetinstallDataForNames( selected );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-183-        if ( netinstallDataList.isEmpty() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-184-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-185-            cWarning() << "No netinstall information found for " << selected;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-186-        }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-187-        else
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-188-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-189-            // If an earlier packagechooser instance added this data to global storage, combine them
+--
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-256-        QStringList flatpakPackages = m_model->getFlatpakPackagesForNames( selected );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-257-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-258-        auto* gs = Calamares::JobQueue::instance()->globalStorage();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-259-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-260-        cDebug() << m_defaultId << "pacman packages to install" << packageNames;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp:261:        Calamares::Packages::setGSPackageAdditions( gs, m_defaultId, packageNames );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-262-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-263-        // Flatpak műveletek
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-264-        QVariantList flatpakOperations =
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-265-            gs->contains( "flatpakOperations" )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-266-                ? gs->value( "flatpakOperations" ).toList()
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-267-                : QVariantList();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-268-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-269-        // Korábbi választás törlése az adott instance-hoz.
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-270-        for ( int i = flatpakOperations.size() - 1; i >= 0; --i )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-271-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-272-            const QVariantMap op = flatpakOperations.at( i ).toMap();
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-273-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-274-            if ( op.value( "source" ).toString() == m_defaultId.toString() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-275-            {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-276-                flatpakOperations.removeAt( i );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-277-            }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-278-        }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-279-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-280-        if ( !flatpakPackages.isEmpty() )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-281-        {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-282-            QVariantMap op;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-283-            op.insert( "install", QVariant( flatpakPackages ) );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-284-            op.insert( "source", m_defaultId.toString() );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-285-            flatpakOperations.append( op );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-286-        }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-287-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-288-        gs->insert( "flatpakOperations", flatpakOperations );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-289-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-290-        cDebug() << m_defaultId << "Flatpak applications to install" << flatpakPackages;
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-291-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-292-    else
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-293-    {
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-294-        cWarning() << "Unknown packagechooser method" << smash( m_method );
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-295-    }
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-296-}
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-297-
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-298-void
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-299-Config::setPackageChoice( const QString& packageChoice )
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-300-{
+src/calamares-3.4.2/src/modules/packagechooser/Config.cpp-301-    if ( packageChoice.isEmpty() )
+--
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-172-        {
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-173-            tryInstallPackages.append( package->toOperation() );
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-174-        }
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-175-    }
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-176-
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp:177:    Calamares::Packages::setGSPackageAdditions(
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-178-        Calamares::JobQueue::instance()->globalStorage(), key, installPackages, tryInstallPackages );
+src/calamares-3.4.2/src/modules/netinstall/Config.cpp-179-}
+grep: src/pkgbuild/libcalamares.so: bináris fájl illeszkedik
+grep: src/pkgbuild/src/libcalamares/CMakeFiles/calamares.dir/packages/Globals.cpp.o: bináris fájl illeszkedik
+grep: src/pkgbuild/src/modules/packagechooser/libcalamares_viewmodule_packagechooser.so: bináris fájl illeszkedik
+grep: src/pkgbuild/src/modules/packagechooser/CMakeFiles/calamares_viewmodule_packagechooser.dir/Config.cpp.o: bináris fájl illeszkedik
+grep: src/pkgbuild/src/modules/netinstall/libcalamares_viewmodule_netinstall.so: bináris fájl illeszkedik
+grep: src/pkgbuild/src/modules/netinstall/CMakeFiles/calamares_viewmodule_netinstall.dir/Config.cpp.o: bináris fájl illeszkedik
+grep: src/pkgbuild/src/modules/packagechooserq/libcalamares_viewmodule_packagechooserq.so: bináris fájl illeszkedik
+grep: src/pkgbuild/src/modules/packagechooserq/CMakeFiles/calamares_viewmodule_packagechooserq.dir/__/packagechooser/Config.cpp.o: bináris fájl illeszkedik
+grep: src/pkgbuild/libcalamares.so.3.4: bináris fájl illeszkedik
+grep: src/pkgbuild/libcalamares.so.3.4.2: bináris fájl illeszkedik
