@@ -1,0 +1,666 @@
+qt.qpa.theme.dbus: Session DBus not running.
+qt.qpa.theme.dbus: Application will not react to setting changes.
+ Check your DBus installation.
+qt.qpa.theme.gnome: dbus connection failed. Last error:  QDBusError("org.freedesktop.DBus.Error.NotSupported", "Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead")
+qt.qpa.theme.dbus: Session DBus not running.
+qt.qpa.theme.dbus: Application will not react to setting changes.
+ Check your DBus installation.
+qt.qpa.theme.gnome: dbus connection failed. Last error:  QDBusError("org.freedesktop.DBus.Error.NotSupported", "Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead")
+12:48:38 [6]: Calamares::Settings::Settings(const QString&, bool)
+    Using Calamares settings file at "/etc/calamares/settings.conf" 
+12:48:38 [6]: void Logger::setupLogfile()
+    Using log file: "/root/.cache/calamares/session.log" 
+12:48:38 [6]: void CalamaresApplication::init()
+    Calamares version: 3.4.2 
+    .. Using Qt version: 6.12.0 
+    .. Build type: Release 
+    .. Using PyBind11 
+    .. Using settings: "/etc/calamares/settings.conf" 
+    .. Using log file: "/root/.cache/calamares/session.log" 
+    .. Languages: QList("ar", "as", "ast", "az", "az_AZ", "be", "bg", "bn", "ca", "ca@valencia", "cs_CZ", "da", "de", "el", "en", "en_GB", "eo", "es", "es_AR", "es_MX", "et", "eu", "fa", "fi_FI", "fr", "fur", "gl", "he", "hi", "hr", "hu", "ia", "id", "is", "it_IT", "ja", "ka", "kk", "ko", "lg", "lt", "ml", "mr", "nb", "nl", "oc", "pl", "pt_BR", "pt_PT", "ro", "ru", "si", "sk", "sl", "sq", "sr", "sr@latin", "sv", "tg", "th", "tr_TR", "uk", "uz", "vi", "zh_CN", "zh_TW") 
+12:48:38 [6]: bool Calamares::initQmlModulesDir()
+    Using Calamares QML directory "/usr/share/calamares/qml" 
+12:48:38 [6]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    Using Calamares branding file at "/usr/share/calamares/branding/phoenix/branding.desc" 
+12:48:38 [2]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    WARNING: the branding component "/usr/share/calamares/branding/phoenix" does not ship translations. 
+12:48:38 [6]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    Loaded branding component "phoenix" 
+    .. No translation for "tz_" "hu_HU" using default (en) 
+    .. Loaded QRC translation "calamares_" "hu_HU" 
+    .. STARTUP: initSettings, initQmlPath, initBranding done 
+    .. STARTUP: initModuleManager: module init started 
+12:48:38 [6]: void Calamares::ModuleManager::doInit()
+    Found 50 modules 
+12:48:39 [6]: void CalamaresApplication::initView()
+    STARTUP: initModuleManager: all modules init done 
+12:48:39 [6]: void CalamaresApplication::initView()
+    STARTUP: initJobQueue done 
+12:48:39 [6]: CalamaresWindow::CalamaresWindow(QWidget*)
+    Available desktop QSize(1840, 1048) minimum size QSize(1024, 520) 
+    .. Proposed window size: 1024 520 
+12:48:39 [6]: void CalamaresApplication::initView()
+    STARTUP: CalamaresWindow created; loadModules started 
+12:48:39 [6]: void Config::initLanguages()
+    Trying to match locale "hu_HU" 
+12:48:39 [6]: void Config::initLanguages()
+    Trying to match locale QLocale::system()/* Hungarian, Latin, Hungary */ 
+12:48:39 [6]: void Config::setLocaleIndex(int)
+    Index 30 Selected locale "hu" 
+    .. No translation for "tz_" "hu" using default (en) 
+    .. Loaded QRC translation "calamares_" "hu" 
+12:48:39 [2]: Calamares::GeoIP::Handler::Handler(const QString&, const QString&, const QString&)
+    WARNING: GeoIP style *none* does not do anything. 
+12:48:39 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements entry 'check' is incomplete. 
+12:48:39 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements entry 'required' is incomplete. 
+12:48:39 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements configuration map: 
+     internetCheckUrl :   http://example.com 
+     requiredRam :   1 
+     requiredStorage :   5.5 
+12:48:39 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 12
+12:48:39 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 11
+12:48:39 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 19
+12:48:39 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 20
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "welcome@welcome" loading complete. 
+12:48:39 [2]: virtual void Config::setConfigurationMap(const QVariantMap&)
+    WARNING: Single-selection QML module must use 'Legacy' method. 
+12:48:39 [6]: QString Calamares::searchQmlFile(QmlSearch, const QString&, const ModuleSystem::InstanceKey&)
+    Looking for QML for "packagechooserq@packagechooserq" 
+    .. Looking at QML file "/usr/share/calamares/branding/phoenix/desktop.qml" 
+12:48:39 [6]: virtual void Calamares::QmlViewStep::setConfigurationMap(const QVariantMap&)
+    QmlViewStep "packagechooserq@packagechooserq" loading "/usr/share/calamares/branding/phoenix/desktop.qml" 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooserq@packagechooserq" loading complete. 
+12:48:39 [6]: QStringList loadLocales(const QString&)
+    Loading locales from "/usr/share/i18n/SUPPORTED" 
+    ..  Read 503 lines 
+    ..  After filtering 328 lines 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "locale@locale" loading complete. 
+12:48:39 [6]: KeyboardModelsModel::KeyboardModelsModel(QObject*)
+    Loaded 184 keyboard models 
+12:48:39 [6]: KeyboardGroupsSwitchersModel::KeyboardGroupsSwitchersModel(QObject*)
+    Loaded 45 keyboard groups 
+12:48:39 [6]: KeyboardPage::KeyboardPage(Config*, QWidget*)
+    Variants now total= 0 selected= -1 
+12:48:39 [6]: KeyboardPage::KeyboardPage(Config*, QWidget*)
+    Groups now total= 45 selected= -1 
+    .. No translation for "kb_" "hu" using default (en) 
+12:48:39 [6]: void Config::getCurrentKeyboardLayoutXkb(QString&, QString&, QString&)
+    QList("pc", "hu", "inet(evdev)\"") 
+12:48:39 [2]: bool KeyBoardPreview::loadCodes()
+    WARNING: ckbcomp not found , keyboard preview disabled 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "keyboard@keyboard" loading complete. 
+    .. minLength set to 1 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "users@users" loading complete. 
+12:48:39 [6]: void Calamares::ModuleManager::loadModules()
+    Module "packagechooserq@packagechooserq" already loaded. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 7 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@browsers" loading complete. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 11 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@tools" loading complete. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 2 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@media" loading complete. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 10 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@editors" loading complete. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 3 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@communication" loading complete. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 4 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@dev" loading complete. 
+12:48:39 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 1 entries. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@gaming" loading complete. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "summary@summary" loading complete. 
+12:48:39 [6]: Calamares::SlideshowQML::SlideshowQML(QWidget*)
+    QML import paths: 
+     "/usr/share/calamares/qml" 
+     "/usr/bin" 
+     "qrc:/qt-project.org/imports" 
+     "qrc:/qt/qml" 
+     "/usr/lib/qt6/qml" 
+12:48:39 [6]: Calamares::SlideshowQML::SlideshowQML(QWidget*)
+    QML load on startup, API 2. 
+12:48:39 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "machineid@machineid" loading complete. 
+12:48:39 [6]: void Calamares::ModuleManager::loadModules()
+    Module "locale@locale" already loaded. 
+12:48:39 [6]: void Calamares::ModuleManager::loadModules()
+    Module "keyboard@keyboard" already loaded. 
+12:48:39 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "initcpio@initcpio" loading complete. 
+12:48:39 [6]: void Calamares::ModuleManager::loadModules()
+    Module "users@users" already loaded. 
+12:48:39 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "umount@umount" loading complete. 
+12:48:39 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "finished@finished" loading complete. 
+    .. No translation for "kb_" "hu" using default (en) 
+12:48:39 [6]: void CalamaresApplication::initViewSteps()
+    STARTUP: loadModules for all modules done 
+12:48:39 [6]: void Calamares::ModuleManager::checkRequirements()
+    Checking module requirements .. 
+12:48:39 [6]: void CalamaresApplication::initViewSteps()
+    STARTUP: Window now visible and ProgressTreeView populated 
+    .. 15 view steps loaded. 
+12:48:39 [6]: Calamares::RequirementsList GeneralRequirements::checkRequirements()
+    GeneralRequirements output: 
+     storage :   5905580032 
+     enoughStorage :   unchecked 
+     RAM :   1073741824 
+     enoughRam :   unchecked 
+     hasPower :   unchecked 
+     hasInternet :   unchecked 
+     isRoot :   unchecked 
+12:48:39 [6]: void Calamares::SlideshowQML::loadQmlV2Complete()
+    QML component complete, API 2 
+12:48:39 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/show.qml:33:9: QML QQuickImage: Cannot open: file:///usr/share/calamares/branding/phoenix/squid.png
+    .. Loading "/usr/share/calamares/branding/phoenix/show.qml" 
+12:48:39 [6]: void Calamares::RequirementsChecker::finished()
+    All requirements have been checked. 
+12:48:39 [6]: void Calamares::RequirementsModel::describe() const
+    Requirements model has 0 items 
+12:48:39 [6]: void Calamares::QmlViewStep::loadComplete()
+    QML component "/usr/share/calamares/branding/phoenix/desktop.qml" QQmlComponent::Ready 
+    .. QML component complete "/usr/share/calamares/branding/phoenix/desktop.qml" creating object 
+12:48:39 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/desktop.qml:22:5: TypeError: Cannot read property 'height' of null
+12:48:39 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/desktop.qml:21:5: TypeError: Cannot read property 'width' of null
+WARNING: Running setxkbmap against an Xwayland server
+12:48:39 [6]: void applyXkb(const BasicLayoutInfo&, AdditionalLayoutInfo&)
+    xkbmap selection changed to:  "hu" - "" 
+12:48:40 [6]: void Calamares::callQmlFunction(QQuickItem*, const char*)
+    QML "onActivate()" is missing. 
+12:49:18 [6]: void Config::updateGlobalStorage() const
+    "packagechooserq@packagechooserq" pacman packages to install QList() 
+12:49:18 [6]: bool additions(Calamares::GlobalStorage*, const QString&, const QVariantList&, const QVariantList&)
+    Existing package operations length 0 
+12:49:18 [6]: void Config::updateGlobalStorage() const
+    "packagechooserq@packagechooserq" Flatpak applications to install QList() 
+12:49:18 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:49:18 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:49:18 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:50:04 [6]: void Calamares::ViewManager::quit()
+    Cancelling view step "locale@locale" 
+12:50:04 [6]: void Calamares::ViewManager::quit()
+    Cancelling view step "packagechooserq@packagechooserq" 
+12:50:04 [6]: void Calamares::ViewManager::quit()
+    Cancelling view step "welcome@welcome" 
+Shutting down Calamares... 
+Finished shutdown. 
+[chaze@archlinux calamares]$ sudo calamares -d
+qt.qpa.theme.dbus: Session DBus not running.
+qt.qpa.theme.dbus: Application will not react to setting changes.
+ Check your DBus installation.
+qt.qpa.theme.gnome: dbus connection failed. Last error:  QDBusError("org.freedesktop.DBus.Error.NotSupported", "Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead")
+qt.qpa.theme.dbus: Session DBus not running.
+qt.qpa.theme.dbus: Application will not react to setting changes.
+ Check your DBus installation.
+qt.qpa.theme.gnome: dbus connection failed. Last error:  QDBusError("org.freedesktop.DBus.Error.NotSupported", "Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead")
+12:50:10 [6]: Calamares::Settings::Settings(const QString&, bool)
+    Using Calamares settings file at "/etc/calamares/settings.conf" 
+12:50:10 [6]: void Logger::setupLogfile()
+    Using log file: "/root/.cache/calamares/session.log" 
+12:50:10 [6]: void CalamaresApplication::init()
+    Calamares version: 3.4.2 
+    .. Using Qt version: 6.12.0 
+    .. Build type: Release 
+    .. Using PyBind11 
+    .. Using settings: "/etc/calamares/settings.conf" 
+    .. Using log file: "/root/.cache/calamares/session.log" 
+    .. Languages: QList("ar", "as", "ast", "az", "az_AZ", "be", "bg", "bn", "ca", "ca@valencia", "cs_CZ", "da", "de", "el", "en", "en_GB", "eo", "es", "es_AR", "es_MX", "et", "eu", "fa", "fi_FI", "fr", "fur", "gl", "he", "hi", "hr", "hu", "ia", "id", "is", "it_IT", "ja", "ka", "kk", "ko", "lg", "lt", "ml", "mr", "nb", "nl", "oc", "pl", "pt_BR", "pt_PT", "ro", "ru", "si", "sk", "sl", "sq", "sr", "sr@latin", "sv", "tg", "th", "tr_TR", "uk", "uz", "vi", "zh_CN", "zh_TW") 
+12:50:10 [6]: bool Calamares::initQmlModulesDir()
+    Using Calamares QML directory "/usr/share/calamares/qml" 
+12:50:10 [6]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    Using Calamares branding file at "/usr/share/calamares/branding/phoenix/branding.desc" 
+12:50:10 [2]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    WARNING: the branding component "/usr/share/calamares/branding/phoenix" does not ship translations. 
+12:50:10 [6]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    Loaded branding component "phoenix" 
+    .. No translation for "tz_" "hu_HU" using default (en) 
+    .. Loaded QRC translation "calamares_" "hu_HU" 
+    .. STARTUP: initSettings, initQmlPath, initBranding done 
+    .. STARTUP: initModuleManager: module init started 
+12:50:10 [6]: void Calamares::ModuleManager::doInit()
+    Found 50 modules 
+12:50:10 [6]: void CalamaresApplication::initView()
+    STARTUP: initModuleManager: all modules init done 
+12:50:10 [6]: void CalamaresApplication::initView()
+    STARTUP: initJobQueue done 
+12:50:10 [6]: CalamaresWindow::CalamaresWindow(QWidget*)
+    Available desktop QSize(1840, 1048) minimum size QSize(1024, 520) 
+    .. Proposed window size: 1024 520 
+12:50:10 [6]: void CalamaresApplication::initView()
+    STARTUP: CalamaresWindow created; loadModules started 
+12:50:10 [6]: void Config::initLanguages()
+    Trying to match locale "hu_HU" 
+12:50:10 [6]: void Config::initLanguages()
+    Trying to match locale QLocale::system()/* Hungarian, Latin, Hungary */ 
+12:50:10 [6]: void Config::setLocaleIndex(int)
+    Index 30 Selected locale "hu" 
+    .. No translation for "tz_" "hu" using default (en) 
+    .. Loaded QRC translation "calamares_" "hu" 
+12:50:10 [2]: Calamares::GeoIP::Handler::Handler(const QString&, const QString&, const QString&)
+    WARNING: GeoIP style *none* does not do anything. 
+12:50:10 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements entry 'check' is incomplete. 
+12:50:10 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements entry 'required' is incomplete. 
+12:50:10 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements configuration map: 
+     internetCheckUrl :   http://example.com 
+     requiredRam :   1 
+     requiredStorage :   5.5 
+12:50:10 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 12
+12:50:10 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 11
+12:50:10 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 19
+12:50:10 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 20
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "welcome@welcome" loading complete. 
+12:50:10 [2]: virtual void Config::setConfigurationMap(const QVariantMap&)
+    WARNING: Single-selection QML module must use 'Legacy' method. 
+12:50:10 [6]: QString Calamares::searchQmlFile(QmlSearch, const QString&, const ModuleSystem::InstanceKey&)
+    Looking for QML for "packagechooserq@packagechooserq" 
+    .. Looking at QML file "/usr/share/calamares/branding/phoenix/desktop.qml" 
+12:50:10 [6]: virtual void Calamares::QmlViewStep::setConfigurationMap(const QVariantMap&)
+    QmlViewStep "packagechooserq@packagechooserq" loading "/usr/share/calamares/branding/phoenix/desktop.qml" 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooserq@packagechooserq" loading complete. 
+12:50:10 [6]: QStringList loadLocales(const QString&)
+    Loading locales from "/usr/share/i18n/SUPPORTED" 
+    ..  Read 503 lines 
+    ..  After filtering 328 lines 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "locale@locale" loading complete. 
+12:50:10 [6]: KeyboardModelsModel::KeyboardModelsModel(QObject*)
+    Loaded 184 keyboard models 
+12:50:10 [6]: KeyboardGroupsSwitchersModel::KeyboardGroupsSwitchersModel(QObject*)
+    Loaded 45 keyboard groups 
+12:50:10 [6]: KeyboardPage::KeyboardPage(Config*, QWidget*)
+    Variants now total= 0 selected= -1 
+12:50:10 [6]: KeyboardPage::KeyboardPage(Config*, QWidget*)
+    Groups now total= 45 selected= -1 
+    .. No translation for "kb_" "hu" using default (en) 
+12:50:10 [6]: void Config::getCurrentKeyboardLayoutXkb(QString&, QString&, QString&)
+    QList("pc", "hu", "inet(evdev)\"") 
+12:50:10 [2]: bool KeyBoardPreview::loadCodes()
+    WARNING: ckbcomp not found , keyboard preview disabled 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "keyboard@keyboard" loading complete. 
+    .. minLength set to 1 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "users@users" loading complete. 
+12:50:10 [6]: void Calamares::ModuleManager::loadModules()
+    Module "packagechooserq@packagechooserq" already loaded. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 7 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@browsers" loading complete. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 11 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@tools" loading complete. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 2 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@media" loading complete. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 10 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@editors" loading complete. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 3 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@communication" loading complete. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 4 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@dev" loading complete. 
+12:50:10 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 1 entries. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@gaming" loading complete. 
+12:50:10 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "summary@summary" loading complete. 
+12:50:10 [6]: Calamares::SlideshowQML::SlideshowQML(QWidget*)
+    QML import paths: 
+     "/usr/share/calamares/qml" 
+     "/usr/bin" 
+     "qrc:/qt-project.org/imports" 
+     "qrc:/qt/qml" 
+     "/usr/lib/qt6/qml" 
+12:50:10 [6]: Calamares::SlideshowQML::SlideshowQML(QWidget*)
+    QML load on startup, API 2. 
+12:50:11 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "machineid@machineid" loading complete. 
+12:50:11 [6]: void Calamares::ModuleManager::loadModules()
+    Module "locale@locale" already loaded. 
+12:50:11 [6]: void Calamares::ModuleManager::loadModules()
+    Module "keyboard@keyboard" already loaded. 
+12:50:11 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "initcpio@initcpio" loading complete. 
+12:50:11 [6]: void Calamares::ModuleManager::loadModules()
+    Module "users@users" already loaded. 
+12:50:11 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "umount@umount" loading complete. 
+12:50:11 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "finished@finished" loading complete. 
+    .. No translation for "kb_" "hu" using default (en) 
+12:50:11 [6]: void Calamares::SlideshowQML::loadQmlV2Complete()
+    QML component complete, API 2 
+12:50:11 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/show.qml:33:9: QML Image: Cannot open: file:///usr/share/calamares/branding/phoenix/squid.png
+    .. Loading "/usr/share/calamares/branding/phoenix/show.qml" 
+12:50:11 [6]: void CalamaresApplication::initViewSteps()
+    STARTUP: loadModules for all modules done 
+12:50:11 [6]: void Calamares::ModuleManager::checkRequirements()
+    Checking module requirements .. 
+12:50:11 [6]: void CalamaresApplication::initViewSteps()
+    STARTUP: Window now visible and ProgressTreeView populated 
+    .. 15 view steps loaded. 
+12:50:11 [6]: Calamares::RequirementsList GeneralRequirements::checkRequirements()
+    GeneralRequirements output: 
+     storage :   5905580032 
+     enoughStorage :   unchecked 
+     RAM :   1073741824 
+     enoughRam :   unchecked 
+     hasPower :   unchecked 
+     hasInternet :   unchecked 
+     isRoot :   unchecked 
+12:50:11 [6]: void Calamares::RequirementsChecker::finished()
+    All requirements have been checked. 
+12:50:11 [6]: void Calamares::RequirementsModel::describe() const
+    Requirements model has 0 items 
+12:50:11 [6]: void Calamares::QmlViewStep::loadComplete()
+    QML component "/usr/share/calamares/branding/phoenix/desktop.qml" QQmlComponent::Ready 
+    .. QML component complete "/usr/share/calamares/branding/phoenix/desktop.qml" creating object 
+12:50:11 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/desktop.qml:22:5: TypeError: Cannot read property 'height' of null
+12:50:11 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/desktop.qml:21:5: TypeError: Cannot read property 'width' of null
+WARNING: Running setxkbmap against an Xwayland server
+12:50:11 [6]: void applyXkb(const BasicLayoutInfo&, AdditionalLayoutInfo&)
+    xkbmap selection changed to:  "hu" - "" 
+12:50:24 [6]: void Calamares::callQmlFunction(QQuickItem*, const char*)
+    QML "onActivate()" is missing. 
+12:50:41 [6]: void Config::updateGlobalStorage() const
+    "packagechooserq@packagechooserq" pacman packages to install QList() 
+12:50:41 [6]: bool additions(Calamares::GlobalStorage*, const QString&, const QVariantList&, const QVariantList&)
+    Existing package operations length 0 
+12:50:41 [6]: void Config::updateGlobalStorage() const
+    "packagechooserq@packagechooserq" Flatpak applications to install QList() 
+12:50:41 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:50:41 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:50:41 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:50:43 [6]: void Calamares::ViewManager::quit()
+    Cancelling view step "locale@locale" 
+12:50:43 [6]: void Calamares::ViewManager::quit()
+    Cancelling view step "packagechooserq@packagechooserq" 
+12:50:43 [6]: void Calamares::ViewManager::quit()
+    Cancelling view step "welcome@welcome" 
+Shutting down Calamares... 
+Finished shutdown. 
+[chaze@archlinux calamares]$ sudo calamares -d
+qt.qpa.theme.dbus: Session DBus not running.
+qt.qpa.theme.dbus: Application will not react to setting changes.
+ Check your DBus installation.
+qt.qpa.theme.gnome: dbus connection failed. Last error:  QDBusError("org.freedesktop.DBus.Error.NotSupported", "Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead")
+qt.qpa.theme.dbus: Session DBus not running.
+qt.qpa.theme.dbus: Application will not react to setting changes.
+ Check your DBus installation.
+qt.qpa.theme.gnome: dbus connection failed. Last error:  QDBusError("org.freedesktop.DBus.Error.NotSupported", "Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead")
+12:51:24 [6]: Calamares::Settings::Settings(const QString&, bool)
+    Using Calamares settings file at "/etc/calamares/settings.conf" 
+12:51:24 [6]: void Logger::setupLogfile()
+    Using log file: "/root/.cache/calamares/session.log" 
+12:51:24 [6]: void CalamaresApplication::init()
+    Calamares version: 3.4.2 
+    .. Using Qt version: 6.12.0 
+    .. Build type: Release 
+    .. Using PyBind11 
+    .. Using settings: "/etc/calamares/settings.conf" 
+    .. Using log file: "/root/.cache/calamares/session.log" 
+    .. Languages: QList("ar", "as", "ast", "az", "az_AZ", "be", "bg", "bn", "ca", "ca@valencia", "cs_CZ", "da", "de", "el", "en", "en_GB", "eo", "es", "es_AR", "es_MX", "et", "eu", "fa", "fi_FI", "fr", "fur", "gl", "he", "hi", "hr", "hu", "ia", "id", "is", "it_IT", "ja", "ka", "kk", "ko", "lg", "lt", "ml", "mr", "nb", "nl", "oc", "pl", "pt_BR", "pt_PT", "ro", "ru", "si", "sk", "sl", "sq", "sr", "sr@latin", "sv", "tg", "th", "tr_TR", "uk", "uz", "vi", "zh_CN", "zh_TW") 
+12:51:24 [6]: bool Calamares::initQmlModulesDir()
+    Using Calamares QML directory "/usr/share/calamares/qml" 
+12:51:24 [6]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    Using Calamares branding file at "/usr/share/calamares/branding/phoenix/branding.desc" 
+12:51:24 [2]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    WARNING: the branding component "/usr/share/calamares/branding/phoenix" does not ship translations. 
+12:51:24 [6]: Calamares::Branding::Branding(const QString&, QObject*, qreal)
+    Loaded branding component "phoenix" 
+    .. No translation for "tz_" "hu_HU" using default (en) 
+    .. Loaded QRC translation "calamares_" "hu_HU" 
+    .. STARTUP: initSettings, initQmlPath, initBranding done 
+    .. STARTUP: initModuleManager: module init started 
+12:51:24 [6]: void Calamares::ModuleManager::doInit()
+    Found 50 modules 
+12:51:24 [6]: void CalamaresApplication::initView()
+    STARTUP: initModuleManager: all modules init done 
+12:51:24 [6]: void CalamaresApplication::initView()
+    STARTUP: initJobQueue done 
+12:51:24 [6]: CalamaresWindow::CalamaresWindow(QWidget*)
+    Available desktop QSize(1840, 1048) minimum size QSize(1024, 520) 
+    .. Proposed window size: 1024 520 
+12:51:24 [6]: void CalamaresApplication::initView()
+    STARTUP: CalamaresWindow created; loadModules started 
+12:51:24 [6]: void Config::initLanguages()
+    Trying to match locale "hu_HU" 
+12:51:24 [6]: void Config::initLanguages()
+    Trying to match locale QLocale::system()/* Hungarian, Latin, Hungary */ 
+12:51:24 [6]: void Config::setLocaleIndex(int)
+    Index 30 Selected locale "hu" 
+    .. No translation for "tz_" "hu" using default (en) 
+    .. Loaded QRC translation "calamares_" "hu" 
+12:51:24 [2]: Calamares::GeoIP::Handler::Handler(const QString&, const QString&, const QString&)
+    WARNING: GeoIP style *none* does not do anything. 
+12:51:24 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements entry 'check' is incomplete. 
+12:51:24 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements entry 'required' is incomplete. 
+12:51:24 [2]: void GeneralRequirements::setConfigurationMap(const QVariantMap&)
+    WARNING: GeneralRequirements configuration map: 
+     internetCheckUrl :   http://example.com 
+     requiredRam :   1 
+     requiredStorage :   5.5 
+12:51:24 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 12
+12:51:24 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 11
+12:51:24 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 19
+12:51:24 [8]: INFO (Qt): OpenType support missing for "Adwaita Sans", script 20
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "welcome@welcome" loading complete. 
+12:51:24 [2]: virtual void Config::setConfigurationMap(const QVariantMap&)
+    WARNING: Single-selection QML module must use 'Legacy' method. 
+12:51:24 [6]: QString Calamares::searchQmlFile(QmlSearch, const QString&, const ModuleSystem::InstanceKey&)
+    Looking for QML for "packagechooserq@packagechooserq" 
+    .. Looking at QML file "/usr/share/calamares/branding/phoenix/desktop.qml" 
+12:51:24 [6]: virtual void Calamares::QmlViewStep::setConfigurationMap(const QVariantMap&)
+    QmlViewStep "packagechooserq@packagechooserq" loading "/usr/share/calamares/branding/phoenix/desktop.qml" 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooserq@packagechooserq" loading complete. 
+12:51:24 [6]: QStringList loadLocales(const QString&)
+    Loading locales from "/usr/share/i18n/SUPPORTED" 
+    ..  Read 503 lines 
+    ..  After filtering 328 lines 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "locale@locale" loading complete. 
+12:51:24 [6]: KeyboardModelsModel::KeyboardModelsModel(QObject*)
+    Loaded 184 keyboard models 
+12:51:24 [6]: KeyboardGroupsSwitchersModel::KeyboardGroupsSwitchersModel(QObject*)
+    Loaded 45 keyboard groups 
+12:51:24 [6]: KeyboardPage::KeyboardPage(Config*, QWidget*)
+    Variants now total= 0 selected= -1 
+12:51:24 [6]: KeyboardPage::KeyboardPage(Config*, QWidget*)
+    Groups now total= 45 selected= -1 
+    .. No translation for "kb_" "hu" using default (en) 
+12:51:24 [6]: void Config::getCurrentKeyboardLayoutXkb(QString&, QString&, QString&)
+    QList("pc", "hu", "inet(evdev)\"") 
+12:51:24 [2]: bool KeyBoardPreview::loadCodes()
+    WARNING: ckbcomp not found , keyboard preview disabled 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "keyboard@keyboard" loading complete. 
+    .. minLength set to 1 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "users@users" loading complete. 
+12:51:24 [6]: void Calamares::ModuleManager::loadModules()
+    Module "packagechooserq@packagechooserq" already loaded. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 7 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@browsers" loading complete. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 11 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@tools" loading complete. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 2 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@media" loading complete. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 10 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@editors" loading complete. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 3 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@communication" loading complete. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 4 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@dev" loading complete. 
+12:51:24 [6]: void fillModel(PackageListModel*, const QVariantList&)
+    Loading PackageChooser model items from config 
+    .. Loaded PackageChooser with 1 entries. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "packagechooser@gaming" loading complete. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "summary@summary" loading complete. 
+12:51:24 [6]: Calamares::SlideshowQML::SlideshowQML(QWidget*)
+    QML import paths: 
+     "/usr/share/calamares/qml" 
+     "/usr/bin" 
+     "qrc:/qt-project.org/imports" 
+     "qrc:/qt/qml" 
+     "/usr/lib/qt6/qml" 
+12:51:24 [6]: Calamares::SlideshowQML::SlideshowQML(QWidget*)
+    QML load on startup, API 2. 
+12:51:24 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "machineid@machineid" loading complete. 
+12:51:24 [6]: void Calamares::ModuleManager::loadModules()
+    Module "locale@locale" already loaded. 
+12:51:24 [6]: void Calamares::ModuleManager::loadModules()
+    Module "keyboard@keyboard" already loaded. 
+12:51:24 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "initcpio@initcpio" loading complete. 
+12:51:24 [6]: void Calamares::ModuleManager::loadModules()
+    Module "users@users" already loaded. 
+12:51:24 [6]: virtual void Calamares::CppJobModule::loadSelf()
+    CppJobModule "umount@umount" loading complete. 
+12:51:24 [6]: virtual void Calamares::ViewModule::loadSelf()
+    ViewModule "finished@finished" loading complete. 
+    .. No translation for "kb_" "hu" using default (en) 
+12:51:24 [6]: void Calamares::SlideshowQML::loadQmlV2Complete()
+    QML component complete, API 2 
+12:51:24 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/show.qml:33:9: QML Image: Cannot open: file:///usr/share/calamares/branding/phoenix/squid.png
+    .. Loading "/usr/share/calamares/branding/phoenix/show.qml" 
+12:51:24 [6]: void CalamaresApplication::initViewSteps()
+    STARTUP: loadModules for all modules done 
+12:51:24 [6]: void Calamares::ModuleManager::checkRequirements()
+    Checking module requirements .. 
+12:51:24 [6]: void CalamaresApplication::initViewSteps()
+    STARTUP: Window now visible and ProgressTreeView populated 
+    .. 15 view steps loaded. 
+12:51:24 [6]: Calamares::RequirementsList GeneralRequirements::checkRequirements()
+    GeneralRequirements output: 
+     storage :   5905580032 
+     enoughStorage :   unchecked 
+     RAM :   1073741824 
+     enoughRam :   unchecked 
+     hasPower :   unchecked 
+     hasInternet :   unchecked 
+     isRoot :   unchecked 
+12:51:24 [6]: void Calamares::RequirementsChecker::finished()
+    All requirements have been checked. 
+12:51:24 [6]: void Calamares::RequirementsModel::describe() const
+    Requirements model has 0 items 
+12:51:24 [6]: void Calamares::QmlViewStep::loadComplete()
+    QML component "/usr/share/calamares/branding/phoenix/desktop.qml" QQmlComponent::Ready 
+    .. QML component complete "/usr/share/calamares/branding/phoenix/desktop.qml" creating object 
+12:51:24 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/desktop.qml:22:5: TypeError: Cannot read property 'height' of null
+12:51:24 [2]: WARNING (Qt): file:///usr/share/calamares/branding/phoenix/desktop.qml:21:5: TypeError: Cannot read property 'width' of null
+WARNING: Running setxkbmap against an Xwayland server
+12:51:24 [6]: void applyXkb(const BasicLayoutInfo&, AdditionalLayoutInfo&)
+    xkbmap selection changed to:  "hu" - "" 
+12:51:27 [6]: void Calamares::callQmlFunction(QQuickItem*, const char*)
+    QML "onActivate()" is missing. 
+12:51:32 [6]: void Config::updateGlobalStorage() const
+    "packagechooserq@packagechooserq" pacman packages to install QList() 
+12:51:32 [6]: bool additions(Calamares::GlobalStorage*, const QString&, const QVariantList&, const QVariantList&)
+    Existing package operations length 0 
+12:51:32 [6]: void Config::updateGlobalStorage() const
+    "packagechooserq@packagechooserq" Flatpak applications to install QList() 
+12:51:32 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:51:32 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
+12:51:33 [6]: static LocaleConfiguration LocaleConfiguration::fromLanguageAndLocation(const QString&, const QStringList&, const QString&)
+    Mapping "hu" in "HU" to locale. 
+    .. Got best match for "hu" as "hu_HU.UTF-8" 
+    .. Got best match for "hu_HU" as "hu_HU.UTF-8" 
